@@ -51,7 +51,7 @@
             text-align: center; /* Centraliza o texto */
             animation: fadeInScale 0.8s ease-out; /* Animação de entrada combinada */
             overflow: hidden; /* Garante que as sombras internas fiquem contidas */
-            position: relative; /* Para elementos decorativos */
+            position: relative; /* Para elementos decorativos e posicionamento absoluto */
         }
 
         @keyframes fadeInScale {
@@ -320,8 +320,8 @@
              box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Sombra maior */
         }
         button:active {
-            transform: translateY(0); /* Efeito de clique */
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
+            transform: translateY(0);
+             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
         }
 
          #start-button {
@@ -385,7 +385,7 @@
             border-radius: 16px; /* Cantos mais arredondados */
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); /* Sombra mais forte */
             text-align: center;
-            position: relative; /* Para posicionar elementos decorativos */
+            position: relative; /* Para posicionar elementos decorativos e a marca d'água */
             overflow: hidden; /* Esconde partes decorativas que saem da borda */
             animation: scaleIn 0.8s ease-out; /* Animação de escala */
         }
@@ -395,6 +395,19 @@
             to { opacity: 1; transform: scale(1); }
         }
 
+        /* Estilo para a marca d'água no certificado */
+        .certificate-watermark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ajusta a imagem para caber mantendo a proporção */
+            opacity: 0.1; /* Define a transparência para parecer marca d'água */
+            z-index: 0; /* Garante que fique atrás do conteúdo */
+            pointer-events: none; /* Impede que a imagem interfira com cliques no texto */
+        }
+
 
         .certificate h2 {
             font-size: 3.5rem; /* Título do certificado maior */
@@ -402,12 +415,16 @@
             margin-bottom: 30px; /* Mais espaço */
             font-weight: 800; /* Extra bold */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra no texto */
+            position: relative; /* Garante que o título fique acima da marca d'água */
+            z-index: 1;
         }
 
         .certificate p {
             font-size: 1.4rem; /* Tamanho maior */
             color: var(--medium-text);
             margin-bottom: 15px;
+            position: relative; /* Garante que o texto fique acima da marca d'água */
+            z-index: 1;
         }
 
         .certificate .player-name {
@@ -417,6 +434,8 @@
             margin: 30px 0; /* Mais espaço */
             text-transform: uppercase; /* Nome em maiúsculas */
              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08); /* Sombra sutil no nome */
+             position: relative; /* Garante que o nome fique acima da marca d'água */
+            z-index: 1;
         }
 
         .certificate .final-score {
@@ -424,6 +443,8 @@
             font-weight: 700; /* Bold */
             color: var(--secondary-green); /* Verde vibrante para pontuação */
             margin-top: 25px; /* Mais espaço */
+            position: relative; /* Garante que a pontuação fique acima da marca d'água */
+            z-index: 1;
         }
 
         /* Elementos decorativos (opcional, usando CSS) */
@@ -436,7 +457,7 @@
             background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(165, 180, 252, 0.2)); /* Gradiente azul com transparência */
             border-radius: 50%;
             opacity: 0.8; /* Mais opacidade */
-            z-index: 0;
+            z-index: 0; /* Garante que fiquem atrás do conteúdo e possivelmente da marca d'água */
             filter: blur(50px); /* Efeito de desfoque maior */
         }
 
@@ -450,10 +471,23 @@
             right: -90px; /* Posição ajustada */
         }
 
-        .certificate > * {
-            position: relative; /* Garante que o conteúdo fique acima dos elementos decorativos */
-            z-index: 1;
+        /* Garante que todos os filhos diretos do certificado (exceto a marca d'água) fiquem acima */
+         .certificate > *:not(.certificate-watermark) {
+             position: relative;
+             z-index: 1;
+         }
+
+
+        /* --- Media Query para Tablets (breakpoint md do Tailwind) --- */
+        @media (min-width: 768px) {
+            .start-container,
+            .high-scores-container {
+                max-width: 500px; /* Aumenta a largura máxima para tablets */
+            }
+             /* Opcional: Ajustar padding do container principal em tablets */
+             /* .quiz-container { padding: 50px; } */
         }
+         /* ------------------------------------------------------------- */
 
     </style>
 </head>
@@ -493,6 +527,8 @@
 
             <div id="quiz-results" class="results hidden">
                 <div id="certificate" class="certificate hidden">
+                    <img src="logo190 anos.jpg-4e8bebfd-22a5-406c-8177-b23fcb008cad" alt="Logo 190 anos Assembleia Legislativa" class="certificate-watermark" onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Erro+ao+carregar+Logo'; console.error('Erro ao carregar a imagem da logo:', this.src);">
+
                     <h2>Certificado de Conclusão</h2>
                     <p>Este certificado atesta que</p>
                     <p class="player-name"></p>
@@ -648,6 +684,7 @@
 
         // Função para iniciar o quiz
         function startQuiz() {
+            console.log("startQuiz function called"); // Log para verificar se a função é chamada
             playerName = playerNameInput.value.trim();
             if (playerName === '') {
                 // Melhoria: Exibir mensagem de erro de forma mais amigável, não com alert()
@@ -659,8 +696,12 @@
             hideErrorMessage();
 
             quizEnded = false; // Reseta a flag de término do quiz
+
+            // --- Lógica para esconder a tela inicial e mostrar a área do quiz ---
             startScreenEl.classList.add('hidden'); // Esconde a tela inicial
             quizAreaEl.classList.remove('hidden'); // Mostra a área do quiz
+            // ------------------------------------------------------------------
+
             score = 0; // Reseta o score
             currentQuestionIndex = 0; // Reseta o índice da pergunta
             timeLeft = initialTime; // Reseta o tempo
@@ -862,21 +903,33 @@
             // Carrega high scores existentes
             const highScores = loadHighScores();
 
-            // Adiciona a nova pontuação se for um recorde (considerando o top MAX_HIGH_SCORES)
-            if (highScores.length < MAX_HIGH_SCORES || combinedScore > highScores[highScores.length - 1].score) {
-                 highScores.push({ name: playerName, score: combinedScore });
-                 // Ordena e mantém apenas o top N
-                 highScores.sort((a, b) => b.score - a.score);
-                 highScores.splice(MAX_HIGH_SCORES); // Mantém apenas os top N
-                 saveHighScores(highScores); // Salva os high scores atualizados
-                 // A exibição do ranking será atualizada na próxima vez que a tela inicial for mostrada
+            // --- Adiciona a nova pontuação APENAS se for maior que zero ---
+            if (combinedScore > 0) {
+                // Adiciona a nova pontuação se for um recorde (considerando o top MAX_HIGH_SCORES)
+                if (highScores.length < MAX_HIGH_SCORES || combinedScore > highScores[highScores.length - 1].score) {
+                     highScores.push({ name: playerName, score: combinedScore });
+                     // Ordena e mantém apenas o top N
+                     highScores.sort((a, b) => b.score - a.score);
+                     highScores.splice(MAX_HIGH_SCORES); // Mantém apenas os top N
+                     saveHighScores(highScores); // Salva os high scores atualizados
+                     // A exibição do ranking será atualizada na próxima vez que a tela inicial for mostrada
+                }
             }
+            // -------------------------------------------------------------
 
 
-            // Preenche e mostra o certificado
-            playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta aqui
-            finalScoreCertEl.textContent = `${score} pontos (Score Combinado: ${combinedScore})`; // Exibe score combinado no certificado
-            certificateEl.classList.remove('hidden');
+            // --- Lógica condicional para exibir certificado ou apenas mensagem ---
+            if (combinedScore > 20) { // Exibe certificado se a pontuação combinada for maior que 20
+                playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta aqui
+                finalScoreCertEl.textContent = `${score} pontos (Score Combinado: ${combinedScore})`; // Exibe score combinado no certificado
+                certificateEl.classList.remove('hidden'); // Mostra o certificado
+                restartMessageEl.textContent = `Parabéns! Você obteve uma ótima pontuação. O quiz será reiniciado em `; // Mensagem para alta pontuação
+            } else { // Caso contrário, apenas exibe a mensagem
+                certificateEl.classList.add('hidden'); // Garante que o certificado esteja escondido
+                 restartMessageEl.textContent = `Obrigado por jogar! O quiz será reiniciado em `; // Mensagem para pontuação menor ou igual a 20
+            }
+            // ------------------------------------------------------------------
+
 
             if (timeRanOut) {
                  resultsEl.insertAdjacentHTML('afterbegin', '<p class="text-red-600 font-bold mb-4">Tempo esgotado!</p>');
@@ -884,11 +937,15 @@
 
 
             let countdown = 10; // Tempo para reiniciar
-            restartMessageEl.textContent = `O quiz será reiniciado em ${countdown} segundos...`;
+            // A mensagem inicial já foi definida acima, agora só adicionamos o contador
+            restartMessageEl.textContent += `${countdown} segundos...`;
+
 
             restartTimer = setInterval(() => {
                 countdown--;
-                restartMessageEl.textContent = `O quiz será reiniciado em ${countdown} segundos...`;
+                // Atualiza apenas o contador na mensagem existente
+                restartMessageEl.textContent = restartMessageEl.textContent.replace(/\d+ segundos\.\.\.$/, `${countdown} segundos...`);
+
 
                 if (countdown <= 0) {
                     clearInterval(restartTimer); // Limpa o temporizador de reinício
@@ -905,8 +962,12 @@
             currentQuestionIndex = 0; // Reseta o índice da pergunta
             score = 0; // Reseta o score
             playerNameInput.value = ''; // Limpa o campo do nome
+
+            // --- Lógica para mostrar a tela inicial e esconder a área do quiz ---
             startScreenEl.classList.remove('hidden'); // Mostra a tela inicial
             quizAreaEl.classList.add('hidden'); // Esconde a área do quiz
+            // ------------------------------------------------------------------
+
             resultsEl.classList.add('hidden'); // Esconde os resultados finais
             certificateEl.classList.add('hidden'); // Esconde o certificado
             restartMessageEl.textContent = ''; // Limpa a mensagem de reinício
