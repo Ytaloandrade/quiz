@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Memorial Legislativo Maranhense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para cores vibrantes */
+        :root {
+            --primary-blue: #3b82f6; /* Tailwind blue-500 */
+            --primary-blue-dark: #2563eb; /* Tailwind blue-600 */
+            --secondary-green: #10b981; /* Tailwind emerald-500 */
+            --secondary-green-dark: #059669; /* Tailwind emerald-600 */
+            --accent-red: #ef4444; /* Tailwind red-500 */
+            --accent-red-dark: #dc2626; /* Tailwind red-600 */
+            --light-blue-bg: #eff6ff; /* Tailwind blue-50 */
+            --dark-text: #1f2937; /* Tailwind gray-800 */
+            --medium-text: #4b5563; /* Tailwind gray-600 */
+            --light-border: #d1d5db; /* Tailwind gray-300 */
+            --card-bg: #ffffff;
+             --strong-blue: #2b6cb0; /* Tailwind blue-800 */
+             --strong-blue-dark: #2c5282; /* Tailwind blue-900 */
+             /* Novas variáveis para o gradiente do ranking */
+             --ranking-gradient-start: #bfdbfe; /* Tailwind blue-200 */
+             --ranking-gradient-end: #93c5fd; /* Tailwind blue-300 */
+        }
+
+        /* Estilos gerais do corpo */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%); /* Gradiente de fundo suave */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha ao topo */
+            min-height: 100vh;
+            padding: 30px; /* Mais espaçamento interno */
+            color: var(--dark-text);
+        }
+
+        /* Contêiner principal do quiz */
+        .quiz-container {
+            background-color: var(--card-bg);
+            padding: 40px; /* Mais padding */
+            border-radius: 20px; /* Cantos mais arredondados */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Sombra mais proeminente */
+            width: 100%;
+            max-width: 700px; /* Largura máxima */
+            margin-top: 60px; /* Mais margem no topo */
+            text-align: center; /* Centraliza o texto */
+            animation: fadeInScale 0.8s ease-out; /* Animação de entrada combinada */
+            overflow: hidden; /* Garante que as sombras internas fiquem contidas */
+            position: relative; /* Para elementos decorativos */
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Elementos decorativos no contêiner principal */
+         .quiz-container::before,
+         .quiz-container::after {
+             content: '';
+             position: absolute;
+             width: 150px;
+             height: 150px;
+             background: rgba(59, 130, 246, 0.1); /* Azul com transparência */
+             border-radius: 50%;
+             z-index: 0;
+             filter: blur(40px);
+         }
+         .quiz-container::before {
+             top: -75px;
+             left: -75px;
+         }
+         .quiz-container::after {
+             bottom: -75px;
+             right: -75px;
+         }
+         .quiz-container > * {
+             position: relative;
+             z-index: 1;
+         }
+
+
+        /* Estilos do título principal */
+        .main-title {
+            font-size: 2.5rem; /* Título maior */
+            font-weight: 800; /* Extra bold */
+            margin-bottom: 30px; /* Mais espaço */
+            color: var(--dark-text);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tela Inicial */
+        #start-screen {
+            background-color: var(--light-blue-bg); /* Fundo azul claro vibrante */
+            padding: 40px; /* Mais padding */
+            border-radius: 16px; /* Cantos mais arredondados */
+            margin-bottom: 40px; /* Mais espaço */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            display: flex; /* Usa flexbox para centralizar o conteúdo */
+            flex-direction: column; /* Elementos um abaixo do outro */
+            align-items: center; /* Centraliza horizontalmente */
+        }
+
+        .start-container {
+            margin-bottom: 40px; /* Mais espaço */
+            width: 100%; /* Ocupa a largura do #start-screen */
+            max-width: 400px; /* Aumenta a largura máxima do contêiner */
+        }
+        .start-container label {
+            font-size: 1.3rem; /* Tamanho maior */
+            color: var(--dark-text);
+            margin-bottom: 15px; /* Mais espaço */
+            display: block;
+            font-weight: 700; /* Bold */
+        }
+        .start-container input[type="text"] {
+            padding: 14px 20px; /* Mais padding */
+            border: 2px solid var(--light-border); /* Borda um pouco mais grossa */
+            border-radius: 10px; /* Cantos mais arredondados */
+            width: 100%;
+            max-width: 380px; /* Largura máxima maior */
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 25px; /* Mais espaço */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            color: var(--dark-text);
+        }
+         .start-container input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-blue); /* Borda azul vibrante ao focar */
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* Sombra azul vibrante ao focar */
+        }
+
+        /* Estilos para o Ranking */
+        .high-scores-container {
+            margin-top: 30px;
+            padding-top: 25px; /* Mais padding */
+            border-top: 1px solid var(--light-border); /* Separador */
+            text-align: left;
+             width: 100%; /* Ocupa a largura do #start-screen */
+            max-width: 400px; /* Mantém a mesma largura do start-container */
+        }
+        .high-scores-container h3 {
+            font-size: 1.6rem; /* Tamanho maior */
+            font-weight: 700; /* Bold */
+            color: var(--dark-text);
+            margin-bottom: 20px; /* Mais espaço */
+            text-align: center;
+        }
+        .high-scores-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .high-scores-list li {
+            /* background-color: var(--card-bg); */ /* Fundo branco removido */
+            background: linear-gradient(to right, var(--ranking-gradient-start), var(--ranking-gradient-end)); /* Gradiente azul */
+            padding: 12px 20px; /* Mais padding */
+            border-radius: 10px; /* Cantos mais arredondados */
+            margin-bottom: 12px; /* Mais espaço */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* Sombra suave */
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            color: var(--dark-text); /* Cor do texto mais escura para contraste */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adiciona transição para sombra */
+        }
+        .high-scores-list li:hover {
+            transform: translateX(5px); /* Efeito sutil ao passar o mouse */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12); /* Sombra maior */
+        }
+         .high-scores-list li strong {
+            color: var(--dark-text); /* Cor mais escura para o nome */
+            font-weight: 600; /* Semi-bold */
+         }
+
+
+        /* Área do Quiz (Score, Timer, Barra, Pergunta) */
+        .score-timer-container {
+            display: flex;
+            justify-content: space-between; /* Espaça score e timer */
+            align-items: center;
+            margin-bottom: 10px; /* Reduzido para dar espaço para a mensagem de alerta */
+            padding-bottom: 15px; /* Reduzido */
+            border-bottom: 1px solid var(--light-border); /* Separador */
+        }
+        .score-display {
+            font-size: 1.4rem; /* Tamanho maior */
+            font-weight: bold;
+            color: var(--dark-text);
+        }
+        .timer-display {
+            font-size: 1.4rem; /* Tamanho maior */
+            font-weight: bold;
+            color: var(--dark-text);
+        }
+        .timer-alert {
+            color: var(--accent-red); /* Vermelho vibrante para alerta */
+            font-weight: bold;
+            animation: pulse 1s infinite; /* Animação de pulso */
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .time-warning-message {
+            font-size: 1.1rem; /* Tamanho maior */
+            color: var(--accent-red); /* Vermelho vibrante para a mensagem de aviso */
+            font-weight: bold;
+            margin-bottom: 20px; /* Espaço abaixo da mensagem */
+            min-height: 1.2em; /* Altura mínima para evitar pulo de layout */
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px; /* Altura maior */
+            background-color: var(--light-border); /* Fundo da barra */
+            border-radius: 6px; /* Cantos mais arredondados */
+            overflow: hidden; /* Garante que a barra de progresso fique dentro do container */
+            margin-bottom: 25px; /* Mais espaço */
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Começa em 0% */
+            background-color: var(--primary-blue); /* Cor inicial (azul vibrante) */
+            border-radius: 6px;
+            transition: width 1s linear, background-color 1s linear; /* Transição suave para largura e cor */
+        }
+
+
+        /* Área da Pergunta e Opções */
+        .question-area {
+            min-height: 200px; /* Altura mínima maior */
+            margin-bottom: 30px; /* Mais espaço */
+            padding: 30px; /* Mais padding */
+            background-color: var(--card-bg); /* Fundo branco para o card principal */
+            border-radius: 16px; /* Cantos mais arredondados para o card principal */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra para o card principal */
+            text-align: left; /* Alinha o texto da pergunta à esquerda */
+        }
+         .question-number {
+            font-size: 1.1rem; /* Tamanho maior */
+            color: var(--medium-text);
+            margin-bottom: 15px; /* Mais espaço */
+            font-weight: 600;
+         }
+        .question h3 {
+            font-size: 1.5rem; /* Tamanho do título da pergunta maior */
+            margin-bottom: 25px; /* Mais espaço */
+            color: var(--dark-text);
+            line-height: 1.6; /* Espaçamento entre linhas */
+        }
+        .options {
+            text-align: left; /* Alinha as opções à esquerda */
+        }
+        .options label {
+            display: flex; /* Usa flexbox para alinhar radio e texto */
+            align-items: center; /* Centraliza verticalmente */
+            margin-bottom: 18px; /* Mais espaço entre opções */
+            font-size: 1.1rem;
+            cursor: pointer; /* Cursor de mão */
+            padding: 18px; /* Mais padding para parecer um card */
+            border: 1px solid var(--light-border); /* Borda suave */
+            border-radius: 10px; /* Cantos arredondados */
+            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out; /* Transição suave */
+            background-color: var(--light-blue-bg); /* Fundo azul claro vibrante para o card da opção */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Sombra para o card da opção */
+        }
+        .options label:hover {
+            background-color: #dbeafe; /* Azul um pouco mais escuro ao passar o mouse */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12); /* Sombra um pouco maior ao passar o mouse */
+            transform: translateY(-3px); /* Efeito sutil ao passar o mouse */
+        }
+         .options input[type="radio"] {
+            margin-right: 15px; /* Mais espaço entre o radio button e o texto */
+            transform: scale(1.3); /* Aumenta o tamanho do radio button */
+            accent-color: var(--primary-blue); /* Cor do radio button */
+        }
+        .feedback {
+            margin-top: 25px; /* Mais espaço */
+            font-size: 1.3rem; /* Tamanho maior */
+            font-weight: bold;
+            min-height: 30px; /* Altura mínima para o feedback */
+        }
+        .feedback.correct {
+            color: var(--secondary-green); /* Verde vibrante para correto */
+        }
+        .feedback.incorrect {
+            color: var(--accent-red); /* Vermelho vibrante para incorreto */
+        }
+
+        /* Estilos dos Botões */
+        button {
+            display: block; /* Botão em bloco */
+            width: 100%; /* Largura total */
+            padding: 18px 28px; /* Aumentado o padding para maior tamanho */
+            background-color: var(--primary-blue); /* Azul padrão vibrante para o botão Próxima */
+            color: white;
+            border: none;
+            border-radius: 10px; /* Cantos mais arredondados */
+            font-size: 1.4rem; /* Tamanho da fonte maior para o botão Próxima */
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+            margin-top: 30px; /* Mais espaço acima do botão */
+            font-weight: 700; /* Bold */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Leve sombra no texto do botão */
+        }
+        button:hover {
+            background-color: var(--primary-blue-dark); /* Azul mais escuro ao passar o mouse */
+             transform: translateY(-3px); /* Efeito sutil ao passar o mouse */
+             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Sombra maior */
+        }
+        button:active {
+            transform: translateY(0); /* Efeito de clique */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
+        }
+
+         #start-button {
+            margin-top: 25px; /* Mais espaço */
+            background-color: var(--strong-blue); /* Azul forte para o botão Começar */
+            max-width: 380px; /* Define a largura máxima igual ao input */
+            margin-left: auto; /* Centraliza o botão */
+            margin-right: auto; /* Centraliza o botão */
+             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+             /* Ajustes para combinar com o label */
+             font-family: 'Inter', sans-serif; /* Mesma fonte */
+             font-size: 1.3rem; /* Mesmo tamanho */
+             font-weight: 700; /* Mesmo peso */
+             color: #ffffff; /* Cor branca */
+
+             /* Estilos para esconder inicialmente e animar */
+            opacity: 0;
+            pointer-events: none; /* Desabilita cliques quando invisível */
+            transform: translateY(-20px); /* Começa um pouco acima (para deslizar para baixo) */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adiciona transição para opacidade e transform */
+            text-shadow: none; /* Remove a sombra de texto do botão Começar */
+        }
+         #start-button.visible {
+             opacity: 1;
+             pointer-events: auto; /* Habilita cliques quando visível */
+             transform: translateY(0); /* Posição final */
+         }
+
+        #start-button:hover {
+             background-color: var(--strong-blue-dark); /* Azul mais escuro */
+             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Sombra maior */
+        }
+         #start-button:active {
+            transform: translateY(0);
+             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
+        }
+
+        /* Área de Resultados Finais */
+        .results {
+            margin-top: 40px; /* Mais espaço */
+            font-size: 1.8rem; /* Tamanho maior */
+            font-weight: bold;
+            text-align: center;
+            color: var(--dark-text);
+        }
+        .restart-message {
+            margin-top: 25px; /* Mais espaço */
+            font-size: 1.2rem; /* Tamanho maior */
+            color: var(--medium-text);
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Estilos para o Certificado */
+        .certificate {
+            border: 8px solid var(--primary-blue); /* Borda azul vibrante mais grossa */
+            padding: 60px; /* Mais padding */
+            margin-top: 40px; /* Mais espaço */
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%); /* Gradiente suave para o fundo */
+            border-radius: 16px; /* Cantos mais arredondados */
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); /* Sombra mais forte */
+            text-align: center;
+            position: relative; /* Para posicionar elementos decorativos */
+            overflow: hidden; /* Esconde partes decorativas que saem da borda */
+            animation: scaleIn 0.8s ease-out; /* Animação de escala */
+        }
+
+         @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+
+        .certificate h2 {
+            font-size: 3.5rem; /* Título do certificado maior */
+            color: var(--primary-blue-dark); /* Azul mais escuro */
+            margin-bottom: 30px; /* Mais espaço */
+            font-weight: 800; /* Extra bold */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra no texto */
+        }
+
+        .certificate p {
+            font-size: 1.4rem; /* Tamanho maior */
+            color: var(--medium-text);
+            margin-bottom: 15px;
+        }
+
+        .certificate .player-name {
+            font-size: 3rem; /* Tamanho do nome maior */
+            font-weight: 800; /* Extra bold */
+            color: var(--dark-text); /* Cor do nome */
+            margin: 30px 0; /* Mais espaço */
+            text-transform: uppercase; /* Nome em maiúsculas */
+             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08); /* Sombra sutil no nome */
+        }
+
+        .certificate .final-score {
+            font-size: 2.5rem; /* Tamanho da pontuação maior */
+            font-weight: 700; /* Bold */
+            color: var(--secondary-green); /* Verde vibrante para pontuação */
+            margin-top: 25px; /* Mais espaço */
+        }
+
+        /* Elementos decorativos (opcional, usando CSS) */
+        .certificate::before,
+        .certificate::after {
+            content: '';
+            position: absolute;
+            width: 180px; /* Tamanho maior */
+            height: 180px; /* Tamanho maior */
+            background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(165, 180, 252, 0.2)); /* Gradiente azul com transparência */
+            border-radius: 50%;
+            opacity: 0.8; /* Mais opacidade */
+            z-index: 0;
+            filter: blur(50px); /* Efeito de desfoque maior */
+        }
+
+        .certificate::before {
+            top: -90px; /* Posição ajustada */
+            left: -90px; /* Posição ajustada */
+        }
+
+        .certificate::after {
+            bottom: -90px; /* Posição ajustada */
+            right: -90px; /* Posição ajustada */
+        }
+
+        .certificate > * {
+            position: relative; /* Garante que o conteúdo fique acima dos elementos decorativos */
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1 class="main-title">Quiz: Memorial Legislativo Maranhense</h1>
+
+        <div id="start-screen">
+            <div class="start-container">
+                <label for="player-name">Digite seu nome:</label>
+                <input type="text" id="player-name" placeholder="Seu nome aqui">
+                <button id="start-button">Começar</button>
+            </div>
+
+            <div id="high-scores" class="high-scores-container">
+                <h3>Ranking Top 4</h3>
+                <ul id="high-scores-list" class="high-scores-list">
+                    </ul>
+            </div>
+        </div>
+
+        <div id="quiz-area" class="hidden">
+            <div class="score-timer-container">
+                <div id="score-display" class="score-display">Pontuação: 0</div>
+                <div id="timer-display" class="timer-display">Tempo: 1:00</div>
+            </div>
+             <div id="time-warning-message" class="time-warning-message"></div> <div class="progress-bar-container">
+                 <div id="time-progress-bar" class="progress-bar"></div> </div>
+            <div id="question-area" class="question-area">
+                </div>
+
+            <div id="feedback" class="feedback">
+                </div>
+
+            <button id="next-button">Próxima</button>
+
+            <div id="quiz-results" class="results hidden">
+                <div id="certificate" class="certificate hidden">
+                    <h2>Certificado de Conclusão</h2>
+                    <p>Este certificado atesta que</p>
+                    <p class="player-name"></p>
+                    <p>concluiu o Quiz sobre o Memorial Legislativo Maranhense com a seguinte pontuação:</p>
+                    <p class="final-score"></p>
+                    <p>Parabéns!</p>
+                </div>
+                <div id="restart-message" class="restart-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array de objetos contendo as perguntas, opções e a resposta correta
+        const quizData = [
+            {
+                question: "Qual é o principal objetivo do Memorial Legislativo Maranhense?",
+                options: {
+                    a: "Ser a sede da Assembleia Legislativa do Maranhão",
+                    b: "Preservar e divulgar a história do Poder Legislativo Maranhense",
+                    c: "Funcionar como gabinete dos deputados estaduais",
+                    d: "Abrigar apenas documentos recentes da legislação"
+                },
+                correct: "b"
+            },
+            {
+                question: "Onde está localizado o Memorial Legislativo Maranhense?",
+                options: {
+                    a: "No interior do estado, em Imperatriz",
+                    b: "Na capital, São Luís",
+                    c: "Em Brasília, junto ao Congresso Nacional",
+                    d: "Em um anexo separado da Assembleia Legislativa, mas fora de São Luís"
+                },
+                correct: "b"
+            },
+            {
+                question: "O que o acervo do Memorial Legislativo Maranhense geralmente inclui?",
+                options: {
+                    a: "Apenas livros de direito",
+                    b: "Documentos históricos, fotografias, objetos e mobiliário relacionados à história legislativa",
+                    c: "Somente obras de arte contemporânea",
+                    d: "Equipamentos de informática antigos usados na Assembleia"
+                },
+                correct: "b"
+            },
+            {
+                question: "O Memorial Legislativo Maranhense faz parte de qual instituição?",
+                options: {
+                    a: "Tribunal de Justiça do Maranhão",
+                    b: "Governo do Estado do Maranhão",
+                    c: "Assembleia Legislativa do Estado do Maranhão (Alema)",
+                    d: "Ministério Público do Maranhão"
+                },
+                correct: "c"
+            },
+             {
+                question: "Em que ano foi criado o Memorial Legislativo Maranhense? (Esta é uma pergunta fictícia para completar 5)",
+                options: {
+                    a: "1990",
+                    b: "2005",
+                    c: "2010",
+                    d: "2015"
+                },
+                correct: "c" // Resposta fictícia
+            }
+        ];
+
+        const startScreenEl = document.getElementById('start-screen');
+        const quizAreaEl = document.getElementById('quiz-area');
+        const playerNameInput = document.getElementById('player-name');
+        const startButton = document.getElementById('start-button');
+        const scoreDisplayEl = document.getElementById('score-display');
+        const timerDisplayEl = document.getElementById('timer-display'); // Novo elemento para o timer
+        const timeWarningMessageEl = document.getElementById('time-warning-message'); // Novo elemento para a mensagem de aviso
+        const timeProgressBarEl = document.getElementById('time-progress-bar'); // Novo elemento para a barra de progresso
+        const questionAreaEl = document.getElementById('question-area');
+        const feedbackEl = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-button');
+        const resultsEl = document.getElementById('quiz-results');
+        const certificateEl = document.getElementById('certificate');
+        const playerNameCertEl = certificateEl.querySelector('.player-name');
+        const finalScoreCertEl = certificateEl.querySelector('.final-score');
+        const restartMessageEl = document.getElementById('restart-message');
+        const highScoresListEl = document.getElementById('high-scores-list'); // Elemento para a lista de high scores
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let quizTimer; // Variável para o temporizador do quiz
+        let timeLeft = 60; // Tempo inicial em segundos (1 minuto)
+        const initialTime = 60; // Tempo total do quiz para cálculo da barra de progresso
+        let restartTimer; // Variável para o temporizador de reinício
+        let playerName = '';
+        const MAX_HIGH_SCORES = 4; // Número máximo de high scores a serem exibidos
+        const HIGH_SCORES_STORAGE_KEY = 'memorialQuizHighScores'; // Chave para localStorage
+        let quizEnded = false; // Flag para controlar se o quiz terminou
+
+        // Cores para interpolação da barra de progresso (RGB)
+        const startColor = { r: 66, g: 153, b: 225 }; // Tailwind blue-500
+        const endColor = { r: 229, g: 83, b: 62 };   // Tailwind red-600
+
+
+        // Função para carregar high scores do localStorage
+        function loadHighScores() {
+            const highScoresJson = localStorage.getItem(HIGH_SCORES_STORAGE_KEY);
+            if (!highScoresJson) {
+                return []; // Retorna array vazio se não houver scores salvos
+            }
+            try {
+                return JSON.parse(highScoresJson);
+            } catch (e) {
+                console.error("Erro ao carregar high scores:", e);
+                return [];
+            }
+        }
+
+        // Função para salvar high scores no localStorage
+        function saveHighScores(scores) {
+            localStorage.setItem(HIGH_SCORES_STORAGE_KEY, JSON.stringify(scores));
+        }
+
+        // Função para exibir high scores na tela inicial
+        function displayHighScores() {
+            const highScores = loadHighScores();
+            highScoresListEl.innerHTML = ''; // Limpa a lista atual
+
+            if (highScores.length === 0) {
+                highScoresListEl.innerHTML = '<li>Nenhum recorde ainda. Seja o primeiro!</li>';
+                return;
+            }
+
+            // Ordena por score combinado (maior primeiro)
+            highScores.sort((a, b) => b.score - a.score);
+
+            // Exibe apenas os top MAX_HIGH_SCORES
+            for (let i = 0; i < Math.min(highScores.length, MAX_HIGH_SCORES); i++) {
+                const scoreEntry = highScores[i];
+                const listItem = document.createElement('li');
+                // Exibe o nome em caixa alta no ranking também
+                listItem.innerHTML = `<strong>${scoreEntry.name.toUpperCase()}</strong>: ${scoreEntry.score} pontos`;
+                highScoresListEl.appendChild(listItem);
+            }
+        }
+
+        // Função para embaralhar um array (Fisher-Yates Shuffle)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Troca elementos
+            }
+            return array;
+        }
+
+
+        // Função para iniciar o quiz
+        function startQuiz() {
+            playerName = playerNameInput.value.trim();
+            if (playerName === '') {
+                // Melhoria: Exibir mensagem de erro de forma mais amigável, não com alert()
+                 showErrorMessage('Por favor, digite seu nome para começar o quiz.');
+                return;
+            }
+
+            // Limpa a mensagem de erro antes de iniciar o quiz
+            hideErrorMessage();
+
+            quizEnded = false; // Reseta a flag de término do quiz
+            startScreenEl.classList.add('hidden'); // Esconde a tela inicial
+            quizAreaEl.classList.remove('hidden'); // Mostra a área do quiz
+            score = 0; // Reseta o score
+            currentQuestionIndex = 0; // Reseta o índice da pergunta
+            timeLeft = initialTime; // Reseta o tempo
+            updateScoreDisplay(); // Atualiza a exibição do score
+            startTimer(); // Inicia o temporizador
+            displayQuestion(currentQuestionIndex); // Exibe a primeira pergunta
+        }
+
+        // Função para iniciar o temporizador do quiz
+        function startTimer() {
+             // Limpa qualquer temporizador existente antes de iniciar um novo
+            if (quizTimer) {
+                clearInterval(quizTimer);
+            }
+
+            timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`; // Exibe o tempo inicial
+            timerDisplayEl.classList.remove('timer-alert'); // Remove a classe de alerta do timer, se estiver presente
+            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso
+            updateProgressBar(); // Atualiza a barra de progresso inicial
+
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`;
+                updateProgressBar(); // Atualiza a barra de progresso a cada segundo
+
+                // Alerta de tempo acabando no timer display
+                if (timeLeft <= 30 && timeLeft > 0) {
+                    timerDisplayEl.classList.add('timer-alert');
+                } else {
+                     timerDisplayEl.classList.remove('timer-alert');
+                }
+
+                // Exibe a mensagem de aviso aos 30 segundos
+                if (timeLeft === 30) {
+                    timeWarningMessageEl.textContent = 'O tempo está acabando!';
+                } else if (timeLeft < 30 && timeLeft > 0) {
+                     // Mantém a mensagem a partir de 30 segundos
+                } else if (timeLeft <= 0) {
+                     timeWarningMessageEl.textContent = ''; // Limpa a mensagem quando o tempo esgota
+                }
+
+
+                if (timeLeft <= 0 && !quizEnded) { // Verifica se o quiz já não terminou
+                    clearInterval(quizTimer); // Para o temporizador
+                    showFinalResults(true); // Mostra resultados indicando que o tempo acabou
+                }
+            }, 1000); // Atualiza a cada 1 segundo
+        }
+
+        // Função para formatar o tempo em minutos:segundos
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+            return `${minutes}:${formattedSeconds}`;
+        }
+
+        // Função para atualizar a barra de progresso
+        function updateProgressBar() {
+            const elapsedTime = initialTime - timeLeft;
+            const percentageElapsed = (elapsedTime / initialTime) * 100;
+            timeProgressBarEl.style.width = percentageElapsed + '%';
+
+            // Interpolação de cor
+            // Calcula a porcentagem do tempo restante para a interpolação de cor
+            const percentageRemaining = (timeLeft / initialTime) * 100;
+            // Inverte a porcentagem para que 100% seja azul e 0% seja vermelho
+            const colorPercentage = 100 - percentageRemaining;
+
+
+            const r = Math.round(startColor.r * (1 - colorPercentage / 100) + endColor.r * (colorPercentage / 100));
+            const g = Math.round(startColor.g * (1 - colorPercentage / 100) + endColor.g * (colorPercentage / 100));
+            const b = Math.round(startColor.b * (1 - colorPercentage / 100) + endColor.b * (colorPercentage / 100));
+
+            timeProgressBarEl.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+             // Remove a classe alert de CSS, pois a cor é controlada via JS
+            timeProgressBarEl.classList.remove('alert');
+        }
+
+        // Função para exibir uma pergunta específica
+        function displayQuestion(index) {
+             if (quizEnded) return; // Não exibe nova pergunta se o quiz terminou
+
+            const currentQuestion = quizData[index];
+            const optionsArray = Object.entries(currentQuestion.options); // Converte opções para array [letra, texto]
+
+            // Embaralha o array de opções
+            const shuffledOptions = shuffleArray(optionsArray);
+
+            const optionsHtml = [];
+
+            // Constrói o HTML para as opções embaralhadas
+            for (const [letter, text] of shuffledOptions) {
+                optionsHtml.push(
+                    `<label>
+                        <input type="radio" name="question${index}" value="${letter}">
+                        ${letter}) ${text}
+                    </label>`
+                );
+            }
+
+            // Limpa feedback anterior, resultados e certificado
+            feedbackEl.textContent = '';
+            feedbackEl.className = 'feedback'; // Reseta classes de cor
+            resultsEl.classList.add('hidden'); // Esconde a área de resultados
+            certificateEl.classList.add('hidden'); // Esconde o certificado
+            restartMessageEl.textContent = ''; // Limpa a mensagem de reinício
+            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso ao exibir nova pergunta
+
+
+            // Constrói o HTML para a pergunta e opções
+            const output =
+                `<div class="question-number">Pergunta ${index + 1} de ${quizData.length}</div>
+                 <div class="question">
+                    <h3>${currentQuestion.question}</h3>
+                    <div class="options">${optionsHtml.join('')}</div>
+                </div>`;
+
+            questionAreaEl.innerHTML = output;
+            nextButton.textContent = 'Próxima'; // Garante que o texto do botão é "Próxima"
+            nextButton.disabled = false; // Habilita o botão
+            nextButton.classList.remove('hidden'); // Mostra o botão Próxima
+        }
+
+        // Função para verificar a resposta e avançar
+        function checkAnswerAndAdvance() {
+            if (quizEnded) return; // Não processa a resposta se o quiz terminou
+
+            const optionsContainer = questionAreaEl.querySelector('.options');
+            const selector = `input[name=question${currentQuestionIndex}]:checked`;
+            const userAnswerEl = optionsContainer.querySelector(selector);
+            const userAnswer = userAnswerEl ? userAnswerEl.value : null;
+
+            // Verifica se uma opção foi selecionada
+            if (!userAnswer) {
+                feedbackEl.textContent = 'Por favor, selecione uma resposta.';
+                feedbackEl.className = 'feedback incorrect'; // Pode usar a classe incorrect para destaque
+                return; // Não avança se nenhuma resposta for selecionada
+            }
+
+            const correctAnswer = quizData[currentQuestionIndex].correct;
+
+            // Exibe feedback
+            if (userAnswer === correctAnswer) {
+                score += 10; // Adiciona 10 pontos por resposta correta
+                feedbackEl.textContent = 'Correto! +10 pontos';
+                feedbackEl.className = 'feedback correct';
+            } else {
+                const correctAnswerText = quizData[currentQuestionIndex].options[correctAnswer];
+                feedbackEl.textContent = `Incorreto. A resposta correta é ${correctAnswer}) ${correctAnswerText}.`;
+                feedbackEl.className = 'feedback incorrect';
+            }
+
+            updateScoreDisplay(); // Atualiza a exibição do score
+
+            // Desabilita os radio buttons após a resposta
+            const radioButtons = optionsContainer.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => radio.disabled = true);
+            nextButton.disabled = true; // Desabilita o botão Próxima enquanto mostra o feedback
+
+            // Avança para a próxima pergunta ou mostra o resultado final
+            currentQuestionIndex++;
+
+            // Pequeno atraso para o usuário ver o feedback antes de avançar
+            setTimeout(() => {
+                if (currentQuestionIndex < quizData.length) {
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    clearInterval(quizTimer); // Para o temporizador do quiz ao terminar as perguntas
+                    showFinalResults(false); // Mostra resultados (quiz concluído)
+                }
+            }, 1500); // Atraso de 1.5 segundos
+        }
+
+        // Função para atualizar a exibição do score
+        function updateScoreDisplay() {
+            scoreDisplayEl.textContent = `Pontuação: ${score}`;
+        }
+
+        // Função para mostrar o resultado final e reiniciar o quiz
+        function showFinalResults(timeRanOut) {
+            if (quizEnded) return; // Evita chamar a função múltiplas vezes
+            quizEnded = true; // Define a flag de término do quiz
+
+            clearInterval(quizTimer); // Garante que o temporizador do quiz pare
+            questionAreaEl.innerHTML = ''; // Limpa a área da pergunta
+            feedbackEl.textContent = ''; // Limpa o feedback
+            nextButton.classList.add('hidden'); // Esconde o botão "Próxima"
+            resultsEl.classList.remove('hidden'); // Mostra a área de resultados
+            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso nos resultados
+
+            // Calcula a pontuação combinada (pontuação do quiz + tempo restante)
+            // Se o tempo esgotou, timeLeft será 0 ou negativo, então usamos 0 para o cálculo do ranking
+            const timeBonus = Math.max(0, timeLeft); // Garante que o bônus de tempo não seja negativo
+            const combinedScore = score + timeBonus;
+
+
+            // Carrega high scores existentes
+            const highScores = loadHighScores();
+
+            // Adiciona a nova pontuação se for um recorde (considerando o top MAX_HIGH_SCORES)
+            if (highScores.length < MAX_HIGH_SCORES || combinedScore > highScores[highScores.length - 1].score) {
+                 highScores.push({ name: playerName, score: combinedScore });
+                 // Ordena e mantém apenas o top N
+                 highScores.sort((a, b) => b.score - a.score);
+                 highScores.splice(MAX_HIGH_SCORES); // Mantém apenas os top N
+                 saveHighScores(highScores); // Salva os high scores atualizados
+                 // A exibição do ranking será atualizada na próxima vez que a tela inicial for mostrada
+            }
+
+
+            // Preenche e mostra o certificado
+            playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta aqui
+            finalScoreCertEl.textContent = `${score} pontos (Score Combinado: ${combinedScore})`; // Exibe score combinado no certificado
+            certificateEl.classList.remove('hidden');
+
+            if (timeRanOut) {
+                 resultsEl.insertAdjacentHTML('afterbegin', '<p class="text-red-600 font-bold mb-4">Tempo esgotado!</p>');
+            }
+
+
+            let countdown = 10; // Tempo para reiniciar
+            restartMessageEl.textContent = `O quiz será reiniciado em ${countdown} segundos...`;
+
+            restartTimer = setInterval(() => {
+                countdown--;
+                restartMessageEl.textContent = `O quiz será reiniciado em ${countdown} segundos...`;
+
+                if (countdown <= 0) {
+                    clearInterval(restartTimer); // Limpa o temporizador de reinício
+                    restartQuiz(); // Reinicia o quiz
+                }
+            }, 1000); // Atualiza a cada 1 segundo
+        }
+
+        // Função para reiniciar o quiz
+        function restartQuiz() {
+            clearInterval(quizTimer); // Limpa o temporizador do quiz
+            clearInterval(restartTimer); // Limpa o temporizador de reinício
+
+            currentQuestionIndex = 0; // Reseta o índice da pergunta
+            score = 0; // Reseta o score
+            playerNameInput.value = ''; // Limpa o campo do nome
+            startScreenEl.classList.remove('hidden'); // Mostra a tela inicial
+            quizAreaEl.classList.add('hidden'); // Esconde a área do quiz
+            resultsEl.classList.add('hidden'); // Esconde os resultados finais
+            certificateEl.classList.add('hidden'); // Esconde o certificado
+            restartMessageEl.textContent = ''; // Limpa a mensagem de reinício
+            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso ao reiniciar
+            updateScoreDisplay(); // Reseta a exibição do score para 0
+            timeLeft = initialTime; // Reseta o tempo para o próximo quiz
+            timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`; // Reseta a exibição do timer
+            timerDisplayEl.classList.remove('timer-alert'); // Remove a classe de alerta
+            updateProgressBar(); // Reseta a barra de progresso
+            displayHighScores(); // Atualiza a exibição do ranking na tela inicial
+            quizEnded = false; // Reseta a flag de término do quiz
+
+            // Esconde o botão Começar ao reiniciar
+            startButton.classList.remove('visible');
+             // Limpa a mensagem de erro ao reiniciar
+            hideErrorMessage();
+        }
+
+        // Função para mostrar/esconder o botão Começar com base no input
+        function toggleStartButton() {
+            if (playerNameInput.value.trim() !== '') {
+                startButton.classList.add('visible');
+            } else {
+                startButton.classList.remove('visible');
+            }
+        }
+
+        // Função para exibir uma mensagem de erro (alternativa ao alert)
+        function showErrorMessage(message) {
+             // Cria um elemento para a mensagem se ele não existir
+             let errorEl = document.getElementById('error-message');
+             if (!errorEl) {
+                 errorEl = document.createElement('p');
+                 errorEl.id = 'error-message';
+                 errorEl.className = 'text-red-600 font-bold mt-4'; // Estilo Tailwind para erro
+                 // Insere a mensagem antes do start-container
+                 startScreenEl.insertBefore(errorEl, startScreenEl.firstChild);
+             }
+             errorEl.textContent = message;
+             errorEl.classList.remove('hidden');
+        }
+
+        // Função para esconder a mensagem de erro
+        function hideErrorMessage() {
+             const errorEl = document.getElementById('error-message');
+             if (errorEl) {
+                 errorEl.classList.add('hidden');
+             }
+        }
+
+
+        // Carrega e exibe high scores ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+             displayHighScores();
+             // Garante que o botão Começar esteja escondido ao carregar a página
+             startButton.classList.remove('visible');
+             // Garante que a mensagem de erro esteja escondida ao carregar a página
+             hideErrorMessage();
+        });
+
+
+        // Adiciona o event listener para o botão "Começar Quiz"
+        startButton.addEventListener('click', startQuiz);
+
+        // Adiciona o event listener para o botão "Próxima"
+        nextButton.addEventListener('click', checkAnswerAndAdvance);
+
+        // Adiciona event listener para o input do nome do jogador
+        playerNameInput.addEventListener('input', toggleStartButton);
+
+
+    </script>
+
+</body>
+</html>
