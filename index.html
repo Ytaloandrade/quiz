@@ -25,6 +25,11 @@
              /* Novas variáveis para o gradiente do ranking */
              --ranking-gradient-start: #bfdbfe; /* Tailwind blue-200 */
              --ranking-gradient-end: #93c5fd; /* Tailwind blue-300 */
+             /* Nova variável para destaque de resposta correta ao errar */
+             --highlight-correct-bg: #fee2e2; /* Tailwind red-100 */
+             /* Nova variável para o fundo vermelho forte */
+             --strong-red-bg: #f87171; /* Tailwind red-400 - um vermelho forte, mas não gritante */
+             --strong-red-bg-dark: #ef4444; /* Tailwind red-500 - mais escuro para hover/active */
         }
 
         /* Estilos gerais do corpo */
@@ -35,23 +40,32 @@
             justify-content: center;
             align-items: flex-start; /* Alinha ao topo */
             min-height: 100vh;
-            padding: 30px; /* Mais espaçamento interno */
+            padding: 20px; /* Reduzido para dar mais espaço vertical */
             color: var(--dark-text);
+             /* Garante que o corpo ocupe a largura total disponível para melhor responsividade */
+            width: 100%;
+            overflow-y: auto; /* Permite rolagem no corpo se o conteúdo exceder a tela */
         }
 
         /* Contêiner principal do quiz */
         .quiz-container {
             background-color: var(--card-bg);
-            padding: 40px; /* Mais padding */
+            padding: 30px; /* Reduzido para dar mais espaço interno */
             border-radius: 20px; /* Cantos mais arredondados */
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Sombra mais proeminente */
             width: 100%;
-            max-width: 700px; /* Largura máxima */
-            margin-top: 60px; /* Mais margem no topo */
+            max-width: 800px; /* Ajustado para um pouco menor */
+            margin-top: 30px; /* Reduzido para dar mais espaço vertical */
+            margin-bottom: 30px; /* Adicionado margem inferior */
             text-align: center; /* Centraliza o texto */
             animation: fadeInScale 0.8s ease-out; /* Animação de entrada combinada */
             overflow: hidden; /* Garante que as sombras internas fiquem contidas */
             position: relative; /* Para elementos decorativos e posicionamento absoluto */
+             z-index: 1; /* Garante que esteja acima do fundo, mas abaixo dos modais (se reintroduzidos) */
+             /* Adiciona flexbox para controlar a altura do conteúdo interno */
+             display: flex;
+             flex-direction: column;
+             min-height: calc(100vh - 40px); /* Altura mínima baseada na viewport menos padding do body */
         }
 
         @keyframes fadeInScale {
@@ -92,41 +106,57 @@
             margin-bottom: 30px; /* Mais espaço */
             color: var(--dark-text);
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+             flex-shrink: 0; /* Impede que o título encolha */
         }
 
         /* Tela Inicial */
         #start-screen {
             background-color: var(--light-blue-bg); /* Fundo azul claro vibrante */
-            padding: 40px; /* Mais padding */
+            padding: 30px; /* Reduzido padding */
             border-radius: 16px; /* Cantos mais arredondados */
-            margin-bottom: 40px; /* Mais espaço */
+            margin-bottom: 20px; /* Reduzido */
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
             display: flex; /* Usa flexbox para centralizar o conteúdo */
             flex-direction: column; /* Elementos um abaixo do outro */
             align-items: center; /* Centraliza horizontalmente */
+             flex-grow: 1; /* Permite que a tela inicial cresça para preencher o espaço */
+             justify-content: center; /* Centraliza verticalmente o conteúdo da tela inicial */
+             max-width: 500px; /* Diminui a largura máxima da tela inicial */
+             margin-left: auto; /* Centraliza a tela inicial */
+             margin-right: auto; /* Centraliza a tela inicial */
         }
 
+        /* Contêiner "Digite seu nome" na tela inicial com fundo vermelho forte */
         .start-container {
-            margin-bottom: 40px; /* Mais espaço */
+            margin-bottom: 30px; /* Reduzido espaço */
             width: 100%; /* Ocupa a largura do #start-screen */
-            max-width: 400px; /* Aumenta a largura máxima do contêiner */
+            max-width: 380px; /* Ajusta a largura máxima do contêiner interno */
+             background-color: var(--strong-red-bg); /* Fundo vermelho forte */
+             padding: 20px; /* Adiciona padding interno */
+             border-radius: 12px; /* Cantos arredondados */
+             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra um pouco mais forte */
+             transition: background-color 0.3s ease-in-out; /* Transição suave */
         }
+         .start-container:hover {
+             background-color: var(--strong-red-bg-dark); /* Vermelho mais escuro no hover */
+         }
+
         .start-container label {
-            font-size: 1.3rem; /* Tamanho maior */
-            color: var(--dark-text);
-            margin-bottom: 15px; /* Mais espaço */
+            font-size: 1.2rem; /* Tamanho maior */
+            color: white; /* Cor do texto branca para contraste */
+            margin-bottom: 10px; /* Reduzido espaço */
             display: block;
             font-weight: 700; /* Bold */
         }
         .start-container input[type="text"] {
-            padding: 14px 20px; /* Mais padding */
+            padding: 12px 15px; /* Reduzido padding */
             border: 2px solid var(--light-border); /* Borda um pouco mais grossa */
             border-radius: 10px; /* Cantos mais arredondados */
             width: 100%;
             max-width: 380px; /* Largura máxima maior */
             font-size: 1.1rem;
             text-align: center;
-            margin-bottom: 25px; /* Mais espaço */
+            margin-bottom: 20px; /* Reduzido espaço */
             transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             color: var(--dark-text);
         }
@@ -138,18 +168,18 @@
 
         /* Estilos para o Ranking */
         .high-scores-container {
-            margin-top: 30px;
-            padding-top: 25px; /* Mais padding */
+            margin-top: 20px; /* Reduzido margem */
+            padding-top: 20px; /* Reduzido padding */
             border-top: 1px solid var(--light-border); /* Separador */
             text-align: left;
              width: 100%; /* Ocupa a largura do #start-screen */
-            max-width: 400px; /* Mantém a mesma largura do start-container */
+            max-width: 380px; /* Mantém a mesma largura do start-container */
         }
         .high-scores-container h3 {
-            font-size: 1.6rem; /* Tamanho maior */
+            font-size: 1.5rem; /* Tamanho maior */
             font-weight: 700; /* Bold */
             color: var(--dark-text);
-            margin-bottom: 20px; /* Mais espaço */
+            margin-bottom: 15px; /* Reduzido espaço */
             text-align: center;
         }
         .high-scores-list {
@@ -160,13 +190,13 @@
         .high-scores-list li {
             /* background-color: var(--card-bg); */ /* Fundo branco removido */
             background: linear-gradient(to right, var(--ranking-gradient-start), var(--ranking-gradient-end)); /* Gradiente azul */
-            padding: 12px 20px; /* Mais padding */
+            padding: 10px 15px; /* Reduzido padding */
             border-radius: 10px; /* Cantos mais arredondados */
-            margin-bottom: 12px; /* Mais espaço */
+            margin-bottom: 10px; /* Reduzido espaço */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* Sombra suave */
             display: flex;
             justify-content: space-between;
-            font-size: 1.1rem;
+            font-size: 1rem; /* Reduzido tamanho da fonte */
             color: var(--dark-text); /* Cor do texto mais escura para contraste */
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adiciona transição para sombra */
         }
@@ -180,7 +210,15 @@
          }
 
 
-        /* Área do Quiz (Score, Timer, Barra, Pergunta) */
+        /* Estilos para a Área do Quiz (Score, Timer, Barra, Pergunta, Feedback) */
+        #quiz-area {
+             display: flex; /* Usa flexbox para organizar o conteúdo */
+             flex-direction: column; /* Elementos um abaixo do outro */
+             flex-grow: 1; /* Permite que a área do quiz cresça para preencher o espaço */
+             overflow: hidden; /* Garante que o conteúdo não transborde verticalmente */
+             padding-top: 20px; /* Adiciona padding superior para separar do título */
+        }
+
         .score-timer-container {
             display: flex;
             justify-content: space-between; /* Espaça score e timer */
@@ -188,6 +226,7 @@
             margin-bottom: 10px; /* Reduzido para dar espaço para a mensagem de alerta */
             padding-bottom: 15px; /* Reduzido */
             border-bottom: 1px solid var(--light-border); /* Separador */
+             flex-shrink: 0; /* Impede que este contêiner encolha */
         }
         .score-display {
             font-size: 1.4rem; /* Tamanho maior */
@@ -216,6 +255,7 @@
             font-weight: bold;
             margin-bottom: 20px; /* Espaço abaixo da mensagem */
             min-height: 1.2em; /* Altura mínima para evitar pulo de layout */
+             flex-shrink: 0; /* Impede que este contêiner encolha */
         }
 
         .progress-bar-container {
@@ -225,6 +265,7 @@
             border-radius: 6px; /* Cantos mais arredondados */
             overflow: hidden; /* Garante que a barra de progresso fique dentro do container */
             margin-bottom: 25px; /* Mais espaço */
+             flex-shrink: 0; /* Impede que este contêiner encolha */
         }
 
         .progress-bar {
@@ -238,57 +279,108 @@
 
         /* Área da Pergunta e Opções */
         .question-area {
-            min-height: 200px; /* Altura mínima maior */
-            margin-bottom: 30px; /* Mais espaço */
-            padding: 30px; /* Mais padding */
+            margin-bottom: 20px; /* Reduzido para dar mais espaço às opções */
+            padding: 30px; /* Mantém padding interno */
             background-color: var(--card-bg); /* Fundo branco para o card principal */
             border-radius: 16px; /* Cantos mais arredondados para o card principal */
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra para o card principal */
             text-align: left; /* Alinha o texto da pergunta à esquerda */
+             flex-grow: 1; /* Permite que esta área cresça e ocupe o espaço disponível */
+             overflow-y: auto; /* Adiciona scroll APENAS nas opções se necessário */
+             display: flex;
+             flex-direction: column;
+             align-items: flex-start; /* Alinha o conteúdo à esquerda */
+             min-height: 0; /* Permite que o flex item encolha abaixo do seu tamanho de conteúdo */
         }
          .question-number {
             font-size: 1.1rem; /* Tamanho maior */
             color: var(--medium-text);
-            margin-bottom: 15px; /* Mais espaço */
+            margin-bottom: 15px; /* Mantém espaço */
             font-weight: 600;
+             flex-shrink: 0; /* Impede que o número da pergunta encolha */
          }
         .question h3 {
             font-size: 1.5rem; /* Tamanho do título da pergunta maior */
-            margin-bottom: 25px; /* Mais espaço */
+            margin-bottom: 20px; /* Mantém espaço */
             color: var(--dark-text);
-            line-height: 1.6; /* Espaçamento entre linhas */
+            line-height: 1.6; /* Mantém espaçamento entre linhas */
+             flex-shrink: 0; /* Impede que o título da pergunta encolha */
         }
         .options {
             text-align: left; /* Alinha as opções à esquerda */
+             width: 100%; /* Garante que as opções ocupem a largura total da question-area */
+             display: flex;
+             flex-direction: column;
+             gap: 8px; /* Reduzido o espaçamento entre as opções para economizar espaço */
+             flex-grow: 1; /* Permite que o contêiner de opções cresça */
+             overflow-y: auto; /* Adiciona scroll APENAS nas opções se necessário */
         }
+        /* Estilo base para cada item de opção (label) */
         .options label {
             display: flex; /* Usa flexbox para alinhar radio e texto */
             align-items: center; /* Centraliza verticalmente */
-            margin-bottom: 18px; /* Mais espaço entre opções */
-            font-size: 1.1rem;
+            font-size: 1.1rem; /* Mantém tamanho */
             cursor: pointer; /* Cursor de mão */
-            padding: 18px; /* Mais padding para parecer um card */
+            padding: 12px 18px; /* Reduzido o padding para economizar espaço vertical */
             border: 1px solid var(--light-border); /* Borda suave */
             border-radius: 10px; /* Cantos arredondados */
             transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out; /* Transição suave */
             background-color: var(--light-blue-bg); /* Fundo azul claro vibrante para o card da opção */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Sombra para o card da opção */
+             flex-shrink: 0; /* Impede que as labels das opções encolham */
+
+            /* --- Estilos Iniciais para Animação --- */
+            opacity: 0; /* Começa invisível */
+            transform: translateY(10px); /* Começa um pouco abaixo */
+            /* -------------------------------------- */
         }
         .options label:hover {
-            background-color: #dbeafe; /* Azul um pouco mais escuro ao passar o mouse */
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12); /* Sombra um pouco maior ao passar o mouse */
+            background-color: var(--primary-blue-dark); /* Azul mais forte ao passar o mouse */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12); /* Sombra maior */
             transform: translateY(-3px); /* Efeito sutil ao passar o mouse */
         }
+
+         /* --- Estilos Finais para Animação (aplicado via JS) --- */
+         .options label.option-item-animate {
+             opacity: 1; /* Fica visível */
+             transform: translateY(0); /* Volta para a posição original */
+             /* Define a transição com o atraso (delay) usando a variável CSS */
+             transition: opacity 0.4s ease-out var(--animation-delay), transform 0.4s ease-out var(--animation-delay), background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+         }
+         /* ------------------------------------------------------ */
+
+
+         /* Estilo para destacar a resposta correta quando a resposta do usuário estiver incorreta */
+         .options label.highlight-correct {
+             background-color: var(--highlight-correct-bg); /* Fundo vermelho claro */
+             border-color: var(--accent-red); /* Borda vermelha */
+             font-weight: 600; /* Opcional: deixa o texto mais forte */
+         }
+
          .options input[type="radio"] {
-            margin-right: 15px; /* Mais espaço entre o radio button e o texto */
-            transform: scale(1.3); /* Aumenta o tamanho do radio button */
-            accent-color: var(--primary-blue); /* Cor do radio button */
+            margin-right: 15px; /* Mantém espaço entre o radio button e o texto */
+            transform: scale(1.3); /* Mantém o tamanho do radio button */
+            accent-color: var(--primary-blue); /* Cor padrão do radio button */
+             flex-shrink: 0; /* Impede que o radio button encolha */
+             /* Adiciona transição para a cor do radio button */
+             transition: accent-color 0.3s ease-in-out;
         }
+         /* Novo estilo para a bolinha verde ao acertar */
+         .options label.correct input[type="radio"] {
+             accent-color: var(--secondary-green-dark); /* Verde mais escuro */
+         }
+         /* Novo estilo para a bolinha vermelha ao errar */
+         .options label.incorrect input[type="radio"] {
+             accent-color: var(--accent-red-dark); /* Vermelho mais escuro */
+         }
+
+
         .feedback {
-            margin-top: 25px; /* Mais espaço */
+            margin-top: 25px; /* Mantém espaço */
             font-size: 1.3rem; /* Tamanho maior */
             font-weight: bold;
-            min-height: 30px; /* Altura mínima para o feedback */
+            min-height: 30px; /* Mantém altura mínima */
+             flex-shrink: 0; /* Impede que este contêiner encolha */
         }
         .feedback.correct {
             color: var(--secondary-green); /* Verde vibrante para correto */
@@ -301,7 +393,7 @@
         button {
             display: block; /* Botão em bloco */
             width: 100%; /* Largura total */
-            padding: 18px 28px; /* Aumentado o padding para maior tamanho */
+            padding: 18px 28px; /* Mantém padding */
             background-color: var(--primary-blue); /* Azul padrão vibrante para o botão Próxima */
             color: white;
             border: none;
@@ -309,10 +401,11 @@
             font-size: 1.4rem; /* Tamanho da fonte maior para o botão Próxima */
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
-            margin-top: 30px; /* Mais espaço acima do botão */
+            margin-top: 30px; /* Mantém espaço acima do botão */
             font-weight: 700; /* Bold */
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Leve sombra no texto do botão */
+             flex-shrink: 0; /* Impede que este contêiner encolha */
         }
         button:hover {
             background-color: var(--primary-blue-dark); /* Azul mais escuro ao passar o mouse */
@@ -321,11 +414,11 @@
         }
         button:active {
             transform: translateY(0);
-             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
+             box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra menor */
         }
 
          #start-button {
-            margin-top: 25px; /* Mais espaço */
+            margin-top: 25px; /* Mantém espaço */
             background-color: var(--strong-blue); /* Azul forte para o botão Começar */
             max-width: 380px; /* Define a largura máxima igual ao input */
             margin-left: auto; /* Centraliza o botão */
@@ -360,34 +453,89 @@
         }
 
         /* Área de Resultados Finais */
-        .results {
-            margin-top: 40px; /* Mais espaço */
+        #quiz-results {
+            margin-top: 40px; /* Mantém espaço */
             font-size: 1.8rem; /* Tamanho maior */
             font-weight: bold;
             text-align: center;
             color: var(--dark-text);
+             flex-grow: 1; /* Permite que a área de resultados cresça */
+             display: flex; /* Usa flexbox para organizar o conteúdo interno */
+             flex-direction: column;
+             justify-content: center; /* Centraliza verticalmente o conteúdo */
         }
-        .restart-message {
+         /* Estilos para os detalhes de desempenho na tela de resultados (oculto) */
+         .performance-details {
+             margin-top: 20px;
+             font-size: 1.2rem;
+             color: var(--dark-text);
+             font-weight: 600;
+             /* display: none; */ /* Oculto via JS em showFinalResults */
+         }
+         .performance-details p {
+             margin-bottom: 8px;
+         }
+         .performance-details .correct-count {
+             color: var(--secondary-green);
+         }
+         .performance-details .incorrect-count {
+             color: var(--accent-red);
+         }
+
+        .final-score-display { /* Novo estilo para a pontuação final na tela de resultados (oculto) */
+            font-size: 2.5rem; /* Tamanho da pontuação maior */
+            font-weight: 700; /* Bold */
+            color: var(--secondary-green); /* Verde vibrante para pontuação */
             margin-top: 25px; /* Mais espaço */
-            font-size: 1.2rem; /* Tamanho maior */
-            color: var(--medium-text);
-        }
-        .hidden {
-            display: none;
+            margin-bottom: 20px; /* Espaço abaixo da pontuação */
+            /* display: none; */ /* Oculto via JS em showFinalResults */
         }
 
-        /* Estilos para o Certificado */
+        .restart-message {
+            margin-top: 25px; /* Mantém espaço */
+            font-size: 1.2rem; /* Tamanho maior */
+            color: var(--medium-text);
+             flex-shrink: 0; /* Impede que a mensagem encolha */
+        }
+        .hidden {
+            display: none !important; /* Use !important para garantir que a ocultação funcione */
+        }
+
+         /* Estilos para o botão Voltar para o Início (oculto) */
+         #back-to-start-button {
+             margin-top: 30px;
+             max-width: 300px; /* Define uma largura máxima para o botão */
+             margin-left: auto; /* Centraliza o botão */
+             margin-right: auto; /* Centraliza o botão */
+             background-color: var(--strong-blue); /* Cor azul forte */
+             font-size: 1.2rem; /* Tamanho da fonte ajustado */
+             /* display: none; */ /* Oculto via JS */
+         }
+          #back-to-start-button:hover {
+             background-color: var(--strong-blue-dark);
+          }
+          #back-to-start-button:active {
+             transform: translateY(0);
+          }
+
+        /* Estilos para o Certificado com fundo vermelho forte */
         .certificate {
             border: 8px solid var(--primary-blue); /* Borda azul vibrante mais grossa */
             padding: 60px; /* Mais padding */
             margin-top: 40px; /* Mais espaço */
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%); /* Gradiente suave para o fundo */
+            background: var(--strong-red-bg); /* Fundo vermelho forte */
             border-radius: 16px; /* Cantos mais arredondados */
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); /* Sombra mais forte */
             text-align: center;
             position: relative; /* Para posicionar elementos decorativos e a marca d'água */
             overflow: hidden; /* Esconde partes decorativas que saem da borda */
             animation: scaleIn 0.8s ease-out; /* Animação de escala */
+             /* Adicionado para centralizar o certificado dentro da área de resultados */
+             margin-left: auto;
+             margin-right: auto;
+             max-width: 800px; /* Mantém a largura máxima */
+             /* display: none; */ /* Oculto via JS */
+             transition: background-color 0.3s ease-in-out; /* Transição suave */
         }
 
          @keyframes scaleIn {
@@ -411,7 +559,7 @@
 
         .certificate h2 {
             font-size: 3.5rem; /* Título do certificado maior */
-            color: var(--primary-blue-dark); /* Azul mais escuro */
+            color: white; /* Cor do texto branca para contraste */
             margin-bottom: 30px; /* Mais espaço */
             font-weight: 800; /* Extra bold */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra no texto */
@@ -421,7 +569,7 @@
 
         .certificate p {
             font-size: 1.4rem; /* Tamanho maior */
-            color: var(--medium-text);
+            color: white; /* Cor do texto branca para contraste */
             margin-bottom: 15px;
             position: relative; /* Garante que o texto fique acima da marca d'água */
             z-index: 1;
@@ -430,7 +578,7 @@
         .certificate .player-name {
             font-size: 3rem; /* Tamanho do nome maior */
             font-weight: 800; /* Extra bold */
-            color: var(--dark-text); /* Cor do nome */
+            color: white; /* Cor do nome branca para contraste */
             margin: 30px 0; /* Mais espaço */
             text-transform: uppercase; /* Nome em maiúsculas */
              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08); /* Sombra sutil no nome */
@@ -441,7 +589,7 @@
         .certificate .final-score {
             font-size: 2.5rem; /* Tamanho da pontuação maior */
             font-weight: 700; /* Bold */
-            color: var(--secondary-green); /* Verde vibrante para pontuação */
+            color: var(--secondary-green); /* Mantém verde vibrante para pontuação */
             margin-top: 25px; /* Mais espaço */
             position: relative; /* Garante que a pontuação fique acima da marca d'água */
             z-index: 1;
@@ -508,6 +656,7 @@
                 <ul id="high-scores-list" class="high-scores-list">
                     </ul>
             </div>
+             <p id="error-message" class="text-red-600 font-bold mt-4 hidden"></p>
         </div>
 
         <div id="quiz-area" class="hidden">
@@ -515,31 +664,35 @@
                 <div id="score-display" class="score-display">Pontuação: 0</div>
                 <div id="timer-display" class="timer-display">Tempo: 1:00</div>
             </div>
-             <div id="time-warning-message" class="time-warning-message"></div> <div class="progress-bar-container">
-                 <div id="time-progress-bar" class="progress-bar"></div> </div>
+             <div id="time-warning-message" class="time-warning-message"></div>
+             <div class="progress-bar-container">
+                 <div id="time-progress-bar" class="progress-bar"></div>
+             </div>
+
             <div id="question-area" class="question-area">
                 </div>
 
             <div id="feedback" class="feedback">
                 </div>
 
-            <button id="next-button">Próxima</button>
-
-            <div id="quiz-results" class="results hidden">
-                <div id="certificate" class="certificate hidden">
-                    <img src="logo190 anos.jpg-4e8bebfd-22a5-406c-8177-b23fcb008cad" alt="Logo 190 anos Assembleia Legislativa" class="certificate-watermark" onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Erro+ao+carregar+Logo'; console.error('Erro ao carregar a imagem da logo:', this.src);">
-
-                    <h2>Certificado de Conclusão</h2>
-                    <p>Este certificado atesta que</p>
-                    <p class="player-name"></p>
-                    <p>concluiu o Quiz sobre o Memorial Legislativo Maranhense com a seguinte pontuação:</p>
-                    <p class="final-score"></p>
-                    <p>Parabéns!</p>
-                </div>
-                <div id="restart-message" class="restart-message"></div>
             </div>
+
+        <div id="quiz-results" class="results hidden">
+             <div id="certificate" class="certificate hidden">
+                <img src="logo190 anos.jpg-4e8bebfd-22a5-406c-8177-b23fcb008cad" alt="Logo 190 anos Assembleia Legislativa" class="certificate-watermark" onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Erro+ao+carregar+Logo'; console.error('Erro ao carregar a imagem da logo:', this.src);">
+
+                <h2>Certificado de Conclusão</h2>
+                <p>Este certificado atesta que</p>
+                <p class="player-name"></p>
+                <p>concluiu o Quiz sobre o Memorial Legislativo Maranhense com a seguinte pontuação:</p>
+                <p class="final-score"></p>
+                <p>Parabéns!</p>
+            </div>
+            <div id="congratulations-message" class="restart-message"></div>
+             <button id="back-to-start-button" class="hidden">Voltar para o Início</button>
         </div>
     </div>
+
 
     <script>
         // Array de objetos contendo as perguntas, opções e a resposta correta
@@ -596,39 +749,67 @@
             }
         ];
 
-        const startScreenEl = document.getElementById('start-screen');
-        const quizAreaEl = document.getElementById('quiz-area');
+
+        // --- Referências aos elementos do DOM ---
+        const quizContainerEl = document.querySelector('.quiz-container'); // Contêiner principal do quiz
+        const startScreenEl = document.getElementById('start-screen'); // Tela inicial
+        const quizAreaEl = document.getElementById('quiz-area'); // Área do quiz (perguntas)
+        const resultsEl = document.getElementById('quiz-results'); // Área de resultados finais
+
         const playerNameInput = document.getElementById('player-name');
         const startButton = document.getElementById('start-button');
-        const scoreDisplayEl = document.getElementById('score-display');
-        const timerDisplayEl = document.getElementById('timer-display'); // Novo elemento para o timer
-        const timeWarningMessageEl = document.getElementById('time-warning-message'); // Novo elemento para a mensagem de aviso
-        const timeProgressBarEl = document.getElementById('time-progress-bar'); // Novo elemento para a barra de progresso
-        const questionAreaEl = document.getElementById('question-area');
-        const feedbackEl = document.getElementById('feedback');
-        const nextButton = document.getElementById('next-button');
-        const resultsEl = document.getElementById('quiz-results');
-        const certificateEl = document.getElementById('certificate');
-        const playerNameCertEl = certificateEl.querySelector('.player-name');
-        const finalScoreCertEl = certificateEl.querySelector('.final-score');
-        const restartMessageEl = document.getElementById('restart-message');
+        const errorMessageEl = document.getElementById('error-message'); // Elemento para mensagem de erro
+
+        // Elementos do Quiz (dentro da área do quiz)
+        const scoreTimerContainerEl = quizAreaEl.querySelector('.score-timer-container'); // Contêiner do score e timer
+        const scoreDisplayEl = quizAreaEl.querySelector('#score-display');
+        const timerDisplayEl = quizAreaEl.querySelector('#timer-display');
+        const timeWarningMessageEl = quizAreaEl.querySelector('#time-warning-message');
+        const timeProgressBarContainerEl = quizAreaEl.querySelector('.progress-bar-container'); // Referência ao contêiner da barra
+        const timeProgressBarEl = quizAreaEl.querySelector('#time-progress-bar'); // Referência à barra de progresso
+        const questionAreaEl = quizAreaEl.querySelector('#question-area');
+        const feedbackEl = quizAreaEl.querySelector('#feedback');
+        // Removida a referência ao nextButton, pois não é mais usado para avançar
+
+
+        // Elementos dos Resultados Finais (dentro da área de resultados)
+        const certificateEl = resultsEl.querySelector('#certificate'); // Referência ao certificado
+        const playerNameCertEl = certificateEl.querySelector('.player-name'); // Nome no certificado
+        const finalScoreCertEl = certificateEl.querySelector('.final-score'); // Pontuação no certificado
+        const correctCountEl = resultsEl.querySelector('.performance-details .correct-count'); // Elemento para acertos - MOVIDO PARA RESULTS
+        const incorrectCountEl = resultsEl.querySelector('.performance-details .incorrect-count'); // Elemento para erros - MOVIDO PARA RESULTS
+        const congratulationsMessageEl = resultsEl.querySelector('#congratulations-message'); // Referência ao novo elemento de mensagem de parabéns
+        const backToStartButton = resultsEl.querySelector('#back-to-start-button'); // Botão Voltar para o Início - MOVIDO PARA RESULTS
+
+
         const highScoresListEl = document.getElementById('high-scores-list'); // Elemento para a lista de high scores
 
+
+        // --- Variáveis de Estado do Quiz ---
         let currentQuestionIndex = 0;
-        let score = 0;
-        let quizTimer; // Variável para o temporizador do quiz
-        let timeLeft = 60; // Tempo inicial em segundos (1 minuto)
-        const initialTime = 60; // Tempo total do quiz para cálculo da barra de progresso
+        let quizScore = 0; // Pontuação baseada apenas em respostas corretas
+        let correctAnswersCount = 0; // Contador de respostas corretas
+        let incorrectAnswersCount = 0; // Contador de respostas incorretas
+
+        let quizTimer; // Variável para o temporizador TOTAL do quiz
+        const totalTimeLimit = 60; // Tempo limite TOTAL do quiz em segundos (1 minuto)
+        let timeLeft = totalTimeLimit; // Tempo restante TOTAL do quiz
+
         let restartTimer; // Variável para o temporizador de reinício
         let playerName = '';
         const MAX_HIGH_SCORES = 4; // Número máximo de high scores a serem exibidos
         const HIGH_SCORES_STORAGE_KEY = 'memorialQuizHighScores'; // Chave para localStorage
         let quizEnded = false; // Flag para controlar se o quiz terminou
+        // -------------------------------------
 
-        // Cores para interpolação da barra de progresso (RGB)
-        const startColor = { r: 66, g: 153, b: 225 }; // Tailwind blue-500
-        const endColor = { r: 229, g: 83, b: 62 };   // Tailwind red-600
 
+        // --- Cores para interpolação da barra de progresso (RGB) ---
+        const startColor = { r: 66, g: 153, b: 225 }; // Tailwind blue-500 (verde no início)
+        const endColor = { r: 229, g: 83, b: 62 };   // Tailwind red-600 (vermelho no fim)
+        // ----------------------------------------------------------
+
+
+        // --- Funções de Utilitário ---
 
         // Função para carregar high scores do localStorage
         function loadHighScores() {
@@ -659,7 +840,7 @@
                 return;
             }
 
-            // Ordena por score combinado (maior primeiro)
+            // Ordena por score (maior primeiro)
             highScores.sort((a, b) => b.score - a.score);
 
             // Exibe apenas os top MAX_HIGH_SCORES
@@ -681,40 +862,106 @@
             return array;
         }
 
+        // Função para formatar o tempo em minutos:segundos
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+            return `${minutes}:${formattedSeconds}`;
+        }
+
+         // Função para exibir uma mensagem de erro (alternativa ao alert)
+        function showErrorMessage(message) {
+             // Encontra o elemento de mensagem de erro pré-existente
+             const errorEl = document.getElementById('error-message');
+             if (errorEl) {
+                 errorEl.textContent = message;
+                 errorEl.classList.remove('hidden');
+             } else {
+                 console.error("Elemento de mensagem de erro #error-message não encontrado!");
+             }
+        }
+
+        // Função para esconder a mensagem de erro
+        function hideErrorMessage() {
+             const errorEl = document.getElementById('error-message');
+             if (errorEl) {
+                 errorEl.classList.add('hidden');
+                 errorEl.textContent = ''; // Limpa o texto também
+             }
+        }
+
+
+        // --- Lógica do Quiz ---
 
         // Função para iniciar o quiz
         function startQuiz() {
             console.log("startQuiz function called"); // Log para verificar se a função é chamada
+            console.log("startScreenEl:", startScreenEl, "quizAreaEl:", quizAreaEl, "resultsEl:", resultsEl); // Log element references
+
             playerName = playerNameInput.value.trim();
             if (playerName === '') {
-                // Melhoria: Exibir mensagem de erro de forma mais amigável, não com alert()
+                console.log("Player name is empty. Showing error message."); // Log empty name
                  showErrorMessage('Por favor, digite seu nome para começar o quiz.');
                 return;
             }
 
-            // Limpa a mensagem de erro antes de iniciar o quiz
-            hideErrorMessage();
-
+            console.log("Player name entered:", playerName); // Log player name
+            hideErrorMessage(); // Esconde a mensagem de erro se o nome for válido
             quizEnded = false; // Reseta a flag de término do quiz
 
+            console.log("Hiding start screen and showing quiz area..."); // Log screen change attempt
             // --- Lógica para esconder a tela inicial e mostrar a área do quiz ---
-            startScreenEl.classList.add('hidden'); // Esconde a tela inicial
-            quizAreaEl.classList.remove('hidden'); // Mostra a área do quiz
+            if (startScreenEl) startScreenEl.classList.add('hidden'); else console.error("startScreenEl not found for hiding!");
+            if (resultsEl) resultsEl.classList.add('hidden'); else console.error("resultsEl not found for hiding!");
+            if (quizAreaEl) quizAreaEl.classList.remove('hidden'); else console.error("quizAreaEl not found for showing!");
+            console.log("Screen classes updated. Start hidden:", startScreenEl?.classList.contains('hidden'), "Quiz hidden:", quizAreaEl?.classList.contains('hidden')); // Verify class changes
             // ------------------------------------------------------------------
 
-            score = 0; // Reseta o score
+            console.log("Resetting quiz state and starting timer/displaying question...");
+            quizScore = 0; // Reseta o score
+            correctAnswersCount = 0; // Reseta contadores
+            incorrectAnswersCount = 0; // Reseta contadores
             currentQuestionIndex = 0; // Reseta o índice da pergunta
-            timeLeft = initialTime; // Reseta o tempo
-            updateScoreDisplay(); // Atualiza a exibição do score
-            startTimer(); // Inicia o temporizador
-            displayQuestion(currentQuestionIndex); // Exibe a primeira pergunta
+            timeLeft = totalTimeLimit; // Reseta o tempo TOTAL do quiz
+
+
+            // Show score and timer container when quiz starts
+            if (scoreTimerContainerEl) scoreTimerContainerEl.classList.remove('hidden'); else console.error("scoreTimerContainerEl not found for showing!");
+            if (timeProgressBarContainerEl) timeProgressBarContainerEl.classList.remove('hidden'); else console.error("timeProgressBarContainerEl not found for showing!");
+
+
+            // Adiciona um pequeno delay antes de exibir a primeira pergunta e iniciar o timer
+            // Isso dá tempo para os elementos estarem disponíveis
+            setTimeout(() => {
+                 console.log("setTimeout callback executed. Checking elements..."); // Log inside setTimeout
+                 // Verifica se os elementos do quiz existem antes de tentar usá-los
+                 if (!scoreDisplayEl || !timerDisplayEl || !timeWarningMessageEl || !timeProgressBarEl || !questionAreaEl || !feedbackEl || !resultsEl || !congratulationsMessageEl || !backToStartButton || !certificateEl || !playerNameCertEl || !finalScoreCertEl || !scoreTimerContainerEl || !timeProgressBarContainerEl) {
+                      console.error("Alguns elementos do quiz não foram encontrados ao iniciar!");
+                       // Poderia adicionar uma mensagem de erro na tela inicial aqui
+                      restartQuiz(); // Tenta reiniciar para voltar à tela inicial
+                      return; // Sai da função
+                 }
+
+                console.log("Elements found. Updating score, starting timer, displaying question..."); // Log before next steps
+                updateScoreDisplay(); // Atualiza a exibição do score
+                startTotalTimer(); // Inicia o temporizador TOTAL do quiz
+                displayQuestion(currentQuestionIndex); // Exibe a primeira pergunta
+            }, 100); // Delay de 100ms
         }
 
-        // Função para iniciar o temporizador do quiz
-        function startTimer() {
-             // Limpa qualquer temporizador existente antes de iniciar um novo
+        // Função para iniciar o temporizador TOTAL do quiz (60 segundos para todas as perguntas)
+        function startTotalTimer() {
+             console.log("startTotalTimer function called"); // Log para verificar se a função é chamada
+             // Limpa qualquer temporador existente antes de iniciar um novo
             if (quizTimer) {
                 clearInterval(quizTimer);
+            }
+
+             // Verifica se os elementos do timer e barra existem antes de tentar usá-los
+            if (!timerDisplayEl || !timeWarningMessageEl || !timeProgressBarEl) {
+                 console.error("Elementos do timer ou barra de progresso não encontrados!");
+                 return; // Sai da função se os elementos não forem encontrados
             }
 
             timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`; // Exibe o tempo inicial
@@ -727,50 +974,45 @@
                 timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`;
                 updateProgressBar(); // Atualiza a barra de progresso a cada segundo
 
-                // Alerta de tempo acabando no timer display
-                if (timeLeft <= 30 && timeLeft > 0) {
+                // Alerta de tempo acabando no timer display (últimos 10 segundos)
+                if (timeLeft <= 10 && timeLeft > 0) {
                     timerDisplayEl.classList.add('timer-alert');
+                    timeWarningMessageEl.textContent = 'O tempo está acabando!';
                 } else {
                      timerDisplayEl.classList.remove('timer-alert');
+                     if (timeLeft > 0) { // Limpa a mensagem apenas se o tempo não esgotou completamente
+                         timeWarningMessageEl.textContent = '';
+                     }
                 }
-
-                // Exibe a mensagem de aviso aos 30 segundos
-                if (timeLeft === 30) {
-                    timeWarningMessageEl.textContent = 'O tempo está acabando!';
-                } else if (timeLeft < 30 && timeLeft > 0) {
-                     // Mantém a mensagem a partir de 30 segundos
-                } else if (timeLeft <= 0) {
-                     timeWarningMessageEl.textContent = ''; // Limpa a mensagem quando o tempo esgota
-                }
-
 
                 if (timeLeft <= 0 && !quizEnded) { // Verifica se o quiz já não terminou
-                    clearInterval(quizTimer); // Para o temporizador
+                    clearInterval(quizTimer); // Para o temporador TOTAL
                     showFinalResults(true); // Mostra resultados indicando que o tempo acabou
                 }
             }, 1000); // Atualiza a cada 1 segundo
         }
 
-        // Função para formatar o tempo em minutos:segundos
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
-            return `${minutes}:${formattedSeconds}`;
-        }
 
-        // Função para atualizar a barra de progresso
+        // Função para atualizar a barra de progresso (baseada no tempo TOTAL)
         function updateProgressBar() {
-            const elapsedTime = initialTime - timeLeft;
-            const percentageElapsed = (elapsedTime / initialTime) * 100;
-            timeProgressBarEl.style.width = percentageElapsed + '%';
+            // Verifica se o elemento timeProgressBarEl existe antes de tentar manipulá-lo
+            if (!timeProgressBarEl) {
+                 console.error("timeProgressBarEl not found in updateProgressBar!"); // Log de erro
+                 return; // Sai da função se o elemento não for encontrado
+            }
 
-            // Interpolação de cor
+            // Calcula a porcentagem do tempo que passou para o quiz TOTAL
+            const elapsedTime = totalTimeLimit - timeLeft;
+            const percentageElapsed = (elapsedTime / totalTimeLimit) * 100;
+            // Garante que a porcentagem não seja negativa ou maior que 100
+            const clampedPercentage = Math.max(0, Math.min(100, percentageElapsed));
+            timeProgressBarEl.style.width = clampedPercentage + '%';
+
+            // Interpolação de cor (verde no início, vermelho no fim)
             // Calcula a porcentagem do tempo restante para a interpolação de cor
-            const percentageRemaining = (timeLeft / initialTime) * 100;
+            const percentageRemaining = (timeLeft / totalTimeLimit) * 100;
             // Inverte a porcentagem para que 100% seja azul e 0% seja vermelho
             const colorPercentage = 100 - percentageRemaining;
-
 
             const r = Math.round(startColor.r * (1 - colorPercentage / 100) + endColor.r * (colorPercentage / 100));
             const g = Math.round(startColor.g * (1 - colorPercentage / 100) + endColor.g * (colorPercentage / 100));
@@ -784,13 +1026,30 @@
 
         // Função para exibir uma pergunta específica
         function displayQuestion(index) {
+             console.log("displayQuestion function called for index:", index); // Log para verificar se a função é chamada
              if (quizEnded) return; // Não exibe nova pergunta se o quiz terminou
+
+            // Verifica se o índice da pergunta é válido
+            if (index >= quizData.length) {
+                // Se não houver mais perguntas, finalize o quiz
+                clearInterval(quizTimer); // Para o temporador TOTAL
+                showFinalResults(false); // Passa false pois o quiz foi concluído, não pelo tempo
+                return;
+            }
+
+            // Verifica se os elementos necessários existem antes de tentar manipulá-los
+            if (!questionAreaEl || !feedbackEl || !timeWarningMessageEl || !resultsEl || !certificateEl || !congratulationsMessageEl) {
+                 console.error("Alguns elementos da pergunta não foram encontrados em displayQuestion!"); // Log de erro
+                 // Poderia adicionar uma mensagem de erro na tela do quiz aqui
+                 showFinalResults(false); // Tenta ir para a tela de resultados mesmo com erro
+                 return; // Sai da função
+            }
 
             const currentQuestion = quizData[index];
             const optionsArray = Object.entries(currentQuestion.options); // Converte opções para array [letra, texto]
 
-            // Embaralha o array de opções
-            const shuffledOptions = shuffleArray(optionsArray);
+            // Embaralha o array de opções para cada pergunta
+            const shuffledOptions = shuffleArray([...optionsArray]); // Cria uma cópia antes de embaralhar
 
             const optionsHtml = [];
 
@@ -799,19 +1058,19 @@
                 optionsHtml.push(
                     `<label>
                         <input type="radio" name="question${index}" value="${letter}">
-                        ${letter}) ${text}
-                    </label>`
+                        ${letter.toUpperCase()}) ${text}
+                    </label>` // Garante que a letra da opção seja maiúscula
                 );
             }
 
-            // Limpa feedback anterior, resultados e certificado
+            // Limpa feedback anterior
             feedbackEl.textContent = '';
             feedbackEl.className = 'feedback'; // Reseta classes de cor
-            resultsEl.classList.add('hidden'); // Esconde a área de resultados
-            certificateEl.classList.add('hidden'); // Esconde o certificado
-            restartMessageEl.textContent = ''; // Limpa a mensagem de reinício
-            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso ao exibir nova pergunta
 
+            // Oculta a área de resultados e o certificado ao exibir uma nova pergunta
+            resultsEl.classList.add('hidden');
+            certificateEl.classList.add('hidden');
+            congratulationsMessageEl.textContent = ''; // Limpa a mensagem de parabéns/reinício
 
             // Constrói o HTML para a pergunta e opções
             const output =
@@ -822,82 +1081,158 @@
                 </div>`;
 
             questionAreaEl.innerHTML = output;
-            nextButton.textContent = 'Próxima'; // Garante que o texto do botão é "Próxima"
-            nextButton.disabled = false; // Habilita o botão
-            nextButton.classList.remove('hidden'); // Mostra o botão Próxima
-        }
 
-        // Função para verificar a resposta e avançar
-        function checkAnswerAndAdvance() {
-            if (quizEnded) return; // Não processa a resposta se o quiz terminou
-
+            // --- Lógica para aplicar a animação de entrada nas opções ---
             const optionsContainer = questionAreaEl.querySelector('.options');
-            const selector = `input[name=question${currentQuestionIndex}]:checked`;
-            const userAnswerEl = optionsContainer.querySelector(selector);
-            const userAnswer = userAnswerEl ? userAnswerEl.value : null;
+            if (optionsContainer) {
+                 const optionLabels = optionsContainer.querySelectorAll('label');
+                 optionLabels.forEach((label, i) => {
+                      // Define o atraso da animação usando uma variável CSS
+                      label.style.setProperty('--animation-delay', `${i * 0.1}s`); // 100ms de atraso entre cada item
 
-            // Verifica se uma opção foi selecionada
-            if (!userAnswer) {
-                feedbackEl.textContent = 'Por favor, selecione uma resposta.';
-                feedbackEl.className = 'feedback incorrect'; // Pode usar a classe incorrect para destaque
-                return; // Não avança se nenhuma resposta for selecionada
-            }
+                      // Adiciona a classe que ativa a animação após um pequeno delay
+                      // Isso garante que o estado inicial (opacity: 0, transform: translateY(10px)) seja aplicado primeiro
+                      setTimeout(() => {
+                           label.classList.add('option-item-animate');
+                      }, 10); // Pequeno delay para garantir que o render inicial ocorra
+                 });
 
-            const correctAnswer = quizData[currentQuestionIndex].correct;
-
-            // Exibe feedback
-            if (userAnswer === correctAnswer) {
-                score += 10; // Adiciona 10 pontos por resposta correta
-                feedbackEl.textContent = 'Correto! +10 pontos';
-                feedbackEl.className = 'feedback correct';
+                 // Adiciona event listener para as opções para avanço automático
+                 const radioButtons = optionsContainer.querySelectorAll('input[type="radio"]');
+                 radioButtons.forEach(radio => {
+                      // Remove any existing listeners first to prevent duplicates
+                      radio.removeEventListener('change', handleAnswerSelection);
+                      radio.addEventListener('change', handleAnswerSelection); // Chama nova função para lidar com a seleção
+                 });
             } else {
-                const correctAnswerText = quizData[currentQuestionIndex].options[correctAnswer];
-                feedbackEl.textContent = `Incorreto. A resposta correta é ${correctAnswer}) ${correctAnswerText}.`;
-                feedbackEl.className = 'feedback incorrect';
+                 console.error("Options container not found after displaying question!"); // Log de erro
             }
-
-            updateScoreDisplay(); // Atualiza a exibição do score
-
-            // Desabilita os radio buttons após a resposta
-            const radioButtons = optionsContainer.querySelectorAll('input[type="radio"]');
-            radioButtons.forEach(radio => radio.disabled = true);
-            nextButton.disabled = true; // Desabilita o botão Próxima enquanto mostra o feedback
-
-            // Avança para a próxima pergunta ou mostra o resultado final
-            currentQuestionIndex++;
-
-            // Pequeno atraso para o usuário ver o feedback antes de avançar
-            setTimeout(() => {
-                if (currentQuestionIndex < quizData.length) {
-                    displayQuestion(currentQuestionIndex);
-                } else {
-                    clearInterval(quizTimer); // Para o temporizador do quiz ao terminar as perguntas
-                    showFinalResults(false); // Mostra resultados (quiz concluído)
-                }
-            }, 1500); // Atraso de 1.5 segundos
+            // ------------------------------------------------------------
         }
+
+        // Função para lidar com a seleção de resposta (chamada pelo event listener)
+        function handleAnswerSelection(event) {
+             if (quizEnded) return; // Não processa se o quiz terminou
+
+             const optionsContainer = questionAreaEl.querySelector('.options');
+             const selectedOptionInput = event.target; // O input de rádio clicado
+             const selectedOptionLabel = selectedOptionInput.closest('label'); // A label correspondente
+
+             // Desabilita todas as opções imediatamente para evitar múltiplas respostas
+             if (optionsContainer) {
+                 const radioButtons = optionsContainer.querySelectorAll('input[type="radio"]');
+                 radioButtons.forEach(radio => radio.disabled = true);
+             } else {
+                  console.error("Options container not found in handleAnswerSelection!"); // Log de erro
+             }
+
+
+             const userAnswer = selectedOptionInput.value;
+             const correctAnswer = quizData[currentQuestionIndex].correct;
+
+             // Exibe feedback e atualiza contadores de acerto/erro
+             if (userAnswer === correctAnswer) {
+                 quizScore += 10; // Adiciona 10 pontos por resposta correta
+                 feedbackEl.textContent = 'Correto! +10 pontos';
+                 feedbackEl.className = 'feedback correct';
+                 correctAnswersCount++; // Incrementa acertos
+                 // --- Adiciona classe 'correct' à label selecionada ---
+                 if (selectedOptionLabel) {
+                      selectedOptionLabel.classList.add('correct');
+                 }
+                 // ----------------------------------------------------------
+             } else {
+                 const correctAnswerText = quizData[currentQuestionIndex].options[correctAnswer];
+                 feedbackEl.textContent = `Incorreto. A resposta correta é ${correctAnswer.toUpperCase()}) ${correctAnswerText}.`; // Garante letra maiúscula no feedback
+                 feedbackEl.className = 'feedback incorrect';
+                 incorrectAnswersCount++; // Incrementa erros
+
+                 // --- Destaca a resposta correta em vermelho ---
+                 const correctOptionInput = optionsContainer.querySelector(`input[value="${correctAnswer}"]`);
+                 if (correctOptionInput) {
+                     const correctOptionLabel = correctOptionInput.closest('label');
+                     if (correctOptionLabel) {
+                         correctOptionLabel.classList.add('highlight-correct');
+                          // --- Adiciona classe 'correct' à label correta (para mudar a bolinha) ---
+                         correctOptionLabel.classList.add('correct');
+                         // ------------------------------------------------------------------------
+                     }
+                 }
+                 // ----------------------------------------------------
+                  // --- Adiciona classe 'incorrect' à label selecionada (para mudar a bolinha) ---
+                 if (selectedOptionLabel) {
+                      selectedOptionLabel.classList.add('incorrect');
+                 }
+                 // ---------------------------------------------------------------------------------
+             }
+
+             updateScoreDisplay(); // Atualiza a exibição do score
+
+             // Avança para a próxima pergunta ou mostra o resultado final após um pequeno atraso
+             setTimeout(() => {
+                 currentQuestionIndex++;
+                 if (currentQuestionIndex < quizData.length) {
+                     displayQuestion(currentQuestionIndex); // Exibe a próxima pergunta
+                 } else {
+                     // Se todas as perguntas foram respondidas antes do tempo acabar
+                     clearInterval(quizTimer); // Para o temporador TOTAL
+                     showFinalResults(false); // Mostra resultados (quiz concluído antes do tempo)
+                 }
+             }, 1500); // Atraso de 1.5 segundos para o usuário ver o feedback
+        }
+
 
         // Função para atualizar a exibição do score
         function updateScoreDisplay() {
-            scoreDisplayEl.textContent = `Pontuação: ${score}`;
+             // Verifica se o elemento scoreDisplayEl existe antes de tentar manipulá-lo
+            if (!scoreDisplayEl) {
+                 console.error("scoreDisplayEl not found in updateScoreDisplay!"); // Log de erro
+                 return; // Sai da função se o elemento não for encontrado
+            }
+            scoreDisplayEl.textContent = `Pontuação: ${quizScore}`;
         }
 
         // Função para mostrar o resultado final e reiniciar o quiz
         function showFinalResults(timeRanOut) {
+            console.log("showFinalResults function called. Time ran out:", timeRanOut); // Log para verificar se a função é chamada
             if (quizEnded) return; // Evita chamar a função múltiplas vezes
             quizEnded = true; // Define a flag de término do quiz
 
-            clearInterval(quizTimer); // Garante que o temporizador do quiz pare
-            questionAreaEl.innerHTML = ''; // Limpa a área da pergunta
-            feedbackEl.textContent = ''; // Limpa o feedback
-            nextButton.classList.add('hidden'); // Esconde o botão "Próxima"
+            clearInterval(quizTimer); // Garante que o temporador TOTAL pare
+
+            // --- Lógica para esconder a área do quiz e mostrar a área de resultados ---
+            quizAreaEl.classList.add('hidden'); // Esconde a área do quiz
             resultsEl.classList.remove('hidden'); // Mostra a área de resultados
+            // -------------------------------------------------------------------------
+
+            // Oculta o score e timer na tela de resultados
+            scoreTimerContainerEl.classList.add('hidden');
+            timeProgressBarContainerEl.classList.add('hidden');
+
+            // Limpa a área da pergunta e feedback (agora que a quizArea está escondida, isso é menos crítico, mas boa prática)
+            questionAreaEl.innerHTML = '';
+            feedbackEl.textContent = '';
             timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso nos resultados
+
+
+            // Exibe os detalhes de desempenho na área de resultados (mantido para referência, mas oculto)
+            // Verifica se os elementos existem antes de tentar usá-los
+            if (correctCountEl && incorrectCountEl) {
+                 correctCountEl.textContent = `Acertos: ${correctAnswersCount}`;
+                 incorrectCountEl.textContent = `Erros: ${incorrectAnswersCount}`;
+                 // Oculta os detalhes de desempenho caso o certificado seja exibido
+                 if (correctCountEl.parentElement) {
+                     correctCountEl.parentElement.classList.add('hidden');
+                 }
+            } else {
+                 console.warn("Performance details elements not found!");
+            }
+
 
             // Calcula a pontuação combinada (pontuação do quiz + tempo restante)
             // Se o tempo esgotou, timeLeft será 0 ou negativo, então usamos 0 para o cálculo do ranking
             const timeBonus = Math.max(0, timeLeft); // Garante que o bônus de tempo não seja negativo
-            const combinedScore = score + timeBonus;
+            const combinedScore = quizScore + timeBonus; // Usa quizScore (pontos por acerto) + bônus de tempo
 
 
             // Carrega high scores existentes
@@ -917,97 +1252,139 @@
             }
             // -------------------------------------------------------------
 
-
-            // --- Lógica condicional para exibir certificado ou apenas mensagem ---
-            if (combinedScore > 20) { // Exibe certificado se a pontuação combinada for maior que 20
-                playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta aqui
-                finalScoreCertEl.textContent = `${score} pontos (Score Combinado: ${combinedScore})`; // Exibe score combinado no certificado
-                certificateEl.classList.remove('hidden'); // Mostra o certificado
-                restartMessageEl.textContent = `Parabéns! Você obteve uma ótima pontuação. O quiz será reiniciado em `; // Mensagem para alta pontuação
-            } else { // Caso contrário, apenas exibe a mensagem
-                certificateEl.classList.add('hidden'); // Garante que o certificado esteja escondido
-                 restartMessageEl.textContent = `Obrigado por jogar! O quiz será reiniciado em `; // Mensagem para pontuação menor ou igual a 20
-            }
-            // ------------------------------------------------------------------
-
-
-            if (timeRanOut) {
+             // Ajusta a mensagem de tempo esgotado, se aplicável
+             if (timeRanOut) {
+                 // Limpa qualquer mensagem anterior de tempo esgotado
+                 const existingTimeOutMessage = resultsEl.querySelector('.text-red-600');
+                 if (existingTimeOutMessage) {
+                     existingTimeOutMessage.remove();
+                 }
                  resultsEl.insertAdjacentHTML('afterbegin', '<p class="text-red-600 font-bold mb-4">Tempo esgotado!</p>');
+             }
+
+
+            // --- Lógica para exibir o certificado e iniciar o timer de reinício com mensagem personalizada ---
+            // Sempre exibe o certificado na tela de resultados
+            if (certificateEl) { // Verifica se o elemento existe
+                 playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta
+                 finalScoreCertEl.textContent = `${quizScore} pontos`; // Exibe APENAS a pontuação do quiz no certificado
+                 certificateEl.classList.remove('hidden'); // Mostra o certificado
+            } else {
+                 console.error("Elemento do certificado não encontrado!");
             }
 
 
-            let countdown = 10; // Tempo para reiniciar
-            // A mensagem inicial já foi definida acima, agora só adicionamos o contador
-            restartMessageEl.textContent += `${countdown} segundos...`;
+            let countdown = 10; // Tempo para reiniciar (10 segundos)
+            // Mensagem inicial personalizada com o nome do jogador
+            if (congratulationsMessageEl) { // Verifica se o elemento existe
+                 congratulationsMessageEl.textContent = `Parabéns, ${playerName}! O quiz será reiniciado em ${countdown} segundos...`;
+            } else {
+                 console.error("Elemento de mensagem de parabéns #congratulations-message não encontrado!");
+            }
 
+
+            // Limpa o temporador de reinício existente antes de iniciar um novo
+            if (restartTimer) {
+                 clearInterval(restartTimer);
+            }
 
             restartTimer = setInterval(() => {
                 countdown--;
                 // Atualiza apenas o contador na mensagem existente
-                restartMessageEl.textContent = restartMessageEl.textContent.replace(/\d+ segundos\.\.\.$/, `${countdown} segundos...`);
+                if (congratulationsMessageEl) { // Verifica se o elemento existe antes de atualizar
+                     congratulationsMessageEl.textContent = `Parabéns, ${playerName}! O quiz será reiniciado em ${countdown} segundos...`;
+                }
 
 
                 if (countdown <= 0) {
-                    clearInterval(restartTimer); // Limpa o temporizador de reinício
+                    clearInterval(restartTimer); // Limpa o temporador de reinício
                     restartQuiz(); // Reinicia o quiz
                 }
             }, 1000); // Atualiza a cada 1 segundo
+            // ----------------------------------------------------------------------
+
+            // Garante que o botão Voltar para o Início esteja escondido, pois o reinício é automático
+             if (backToStartButton) { // Verifica se o elemento existe
+                 backToStartButton.classList.add('hidden');
+             } else {
+                 console.warn("Elemento do botão Voltar para o Início não encontrado.");
+             }
         }
 
         // Função para reiniciar o quiz
         function restartQuiz() {
-            clearInterval(quizTimer); // Limpa o temporizador do quiz
-            clearInterval(restartTimer); // Limpa o temporizador de reinício
+            console.log("restartQuiz function called"); // Log para verificar se a função é chamada
+            clearInterval(quizTimer); // Limpa o temporador do quiz
+            clearInterval(restartTimer); // Limpa o temporador de reinício
 
             currentQuestionIndex = 0; // Reseta o índice da pergunta
-            score = 0; // Reseta o score
+            quizScore = 0; // Reseta o score
+            correctAnswersCount = 0; // Reseta contadores
+            incorrectAnswersCount = 0; // Reseta contadores
             playerNameInput.value = ''; // Limpa o campo do nome
 
-            // --- Lógica para mostrar a tela inicial e esconder a área do quiz ---
-            startScreenEl.classList.remove('hidden'); // Mostra a tela inicial
-            quizAreaEl.classList.add('hidden'); // Esconde a área do quiz
+            // --- Lógica para mostrar a tela inicial e esconder as outras áreas ---
+            if (resultsEl) resultsEl.classList.add('hidden'); else console.warn("resultsEl not found in restartQuiz.");
+            if (quizAreaEl) quizAreaEl.classList.add('hidden'); else console.warn("quizAreaEl not found in restartQuiz.");
+            if (startScreenEl) startScreenEl.classList.remove('hidden'); else console.error("startScreenEl not found in restartQuiz!");
             // ------------------------------------------------------------------
 
-            resultsEl.classList.add('hidden'); // Esconde os resultados finais
-            certificateEl.classList.add('hidden'); // Esconde o certificado
-            restartMessageEl.textContent = ''; // Limpa a mensagem de reinício
-            timeWarningMessageEl.textContent = ''; // Limpa a mensagem de aviso ao reiniciar
+            // Oculta o score e timer na tela inicial
+            if (scoreTimerContainerEl) scoreTimerContainerEl.classList.add('hidden'); else console.warn("scoreTimerContainerEl not found in restartQuiz.");
+            if (timeProgressBarContainerEl) timeProgressBarContainerEl.classList.add('hidden'); else console.warn("timeProgressBarContainerEl not found in restartQuiz.");
+
+            // Oculta o certificado e a mensagem de parabéns/reinício
+            if (certificateEl) certificateEl.classList.add('hidden'); else console.warn("certificateEl not found in restartQuiz.");
+            if (congratulationsMessageEl) congratulationsMessageEl.textContent = ''; else console.warn("congratulationsMessageEl not found in restartQuiz.");
+
+            // Garante que os detalhes de desempenho estejam escondidos
+            if (correctCountEl && correctCountEl.parentElement) {
+                 correctCountEl.parentElement.classList.add('hidden');
+            } else {
+                 console.warn("Performance details parent element not found in restartQuiz.");
+            }
+
+
+            if (timeWarningMessageEl) timeWarningMessageEl.textContent = ''; else console.warn("timeWarningMessageEl not found in restartQuiz."); // Limpa a mensagem de aviso ao reiniciar
             updateScoreDisplay(); // Reseta a exibição do score para 0
-            timeLeft = initialTime; // Reseta o tempo para o próximo quiz
-            timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`; // Reseta a exibição do timer
-            timerDisplayEl.classList.remove('timer-alert'); // Remove a classe de alerta
+            timeLeft = totalTimeLimit; // Reseta o tempo para o próximo quiz
+            if (timerDisplayEl) timerDisplayEl.textContent = `Tempo: ${formatTime(timeLeft)}`; else console.warn("timerDisplayEl not found in restartQuiz."); // Reseta a exibição do timer
+            if (timerDisplayEl) timerDisplayEl.classList.remove('timer-alert'); else console.warn("timerDisplayEl not found in restartQuiz."); // Remove a classe de alerta
             updateProgressBar(); // Reseta a barra de progresso
             displayHighScores(); // Atualiza a exibição do ranking na tela inicial
             quizEnded = false; // Reseta a flag de término do quiz
 
             // Esconde o botão Começar ao reiniciar
-            startButton.classList.remove('visible');
+            if (startButton) startButton.classList.remove('visible'); else console.warn("startButton not found in restartQuiz.");
              // Limpa a mensagem de erro ao reiniciar
             hideErrorMessage();
+             // Garante que o botão Voltar para o Início esteja escondido
+             if (backToStartButton) backToStartButton.classList.add('hidden'); else console.warn("backToStartButton not found in restartQuiz.");
         }
 
         // Função para mostrar/esconder o botão Começar com base no input
         function toggleStartButton() {
-            if (playerNameInput.value.trim() !== '') {
-                startButton.classList.add('visible');
+            if (playerNameInput && startButton) { // Verifica se ambos os elementos existem
+                if (playerNameInput.value.trim() !== '') {
+                    startButton.classList.add('visible');
+                } else {
+                    startButton.classList.remove('visible');
+                }
             } else {
-                startButton.classList.remove('visible');
+                console.warn("playerNameInput or startButton not found in toggleStartButton.");
             }
         }
 
         // Função para exibir uma mensagem de erro (alternativa ao alert)
         function showErrorMessage(message) {
-             // Cria um elemento para a mensagem se ele não existir
-             let errorEl = document.getElementById('error-message');
-             if (!errorEl) {
-                 errorEl = document.createElement('p');
-                 errorEl.id = 'error-message';
-                 errorEl.className = 'text-red-600 font-bold mt-4'; // Estilo Tailwind para erro
-                 // Insere a mensagem antes do start-container
-                 startScreenEl.insertBefore(errorEl, startScreenEl.firstChild);
+             // Encontra o elemento de mensagem de erro pré-existente
+             const errorEl = document.getElementById('error-message');
+             if (errorEl) {
+                 errorEl.textContent = message;
+                 errorEl.classList.remove('hidden');
+             } else {
+                 console.error("Elemento de mensagem de erro #error-message não encontrado!");
              }
-             errorEl.textContent = message;
-             errorEl.classList.remove('hidden');
         }
 
         // Função para esconder a mensagem de erro
@@ -1015,28 +1392,77 @@
              const errorEl = document.getElementById('error-message');
              if (errorEl) {
                  errorEl.classList.add('hidden');
+                 errorEl.textContent = ''; // Limpa o texto também
              }
         }
 
 
+        // --- Event Listeners ---
+
         // Carrega e exibe high scores ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
+             console.log("DOMContentLoaded fired."); // Log when DOM is ready
              displayHighScores();
              // Garante que o botão Começar esteja escondido ao carregar a página
-             startButton.classList.remove('visible');
+             if (startButton) startButton.classList.remove('visible'); else console.error("startButton not found on DOM load!");
              // Garante que a mensagem de erro esteja escondida ao carregar a página
              hideErrorMessage();
+             // Garante que a tela de resultados esteja escondida no início
+             if (resultsEl) resultsEl.classList.add('hidden'); else console.error("resultsEl not found on DOM load!");
+
+             // Oculta o score e timer na tela inicial
+             // Estes elementos estão dentro #quiz-area, que é escondido inicialmente,
+             // mas vamos garantir que estejam escondidos explicitamente.
+             if (scoreTimerContainerEl) scoreTimerContainerEl.classList.add('hidden'); else console.warn("scoreTimerContainerEl not found on DOM load.");
+             if (timeProgressBarContainerEl) timeProgressBarContainerEl.classList.add('hidden'); else console.warn("timeProgressBarContainerEl not found on DOM load.");
+
+             // Oculta o certificado e a mensagem de parabéns/reinício ao carregar a página
+             if (certificateEl) certificateEl.classList.add('hidden'); else console.warn("certificateEl not found on DOM load.");
+             if (congratulationsMessageEl) congratulationsMessageEl.textContent = ''; else console.warn("congratulationsMessageEl not found on DOM load.");
+
+             // Garante que os detalhes de desempenho estejam escondidos
+            if (correctCountEl && correctCountEl.parentElement) {
+                 correctCountEl.parentElement.classList.add('hidden');
+            } else {
+                 console.warn("Performance details parent element not found on DOM load.");
+            }
+             // Garante que o botão Voltar para o Início esteja escondido
+             if (backToStartButton) {
+                 backToStartButton.classList.add('hidden');
+             } else {
+                 console.error("backToStartButton not found on DOM load, cannot add event listener.");
+             }
+
+             console.log("DOMContentLoaded finished."); // Log when DOMContentLoaded is done
         });
 
 
         // Adiciona o event listener para o botão "Começar Quiz"
-        startButton.addEventListener('click', startQuiz);
+        if (startButton) { // Verifica se o elemento existe antes de adicionar o listener
+            startButton.addEventListener('click', startQuiz);
+        } else {
+            console.error("startButton not found, cannot attach click listener.");
+        }
 
-        // Adiciona o event listener para o botão "Próxima"
-        nextButton.addEventListener('click', checkAnswerAndAdvance);
+
+        // Adiciona event listener para as opções de resposta (para avanço automático)
+        // Este listener é adicionado dinamicamente na função displayQuestion
 
         // Adiciona event listener para o input do nome do jogador
-        playerNameInput.addEventListener('input', toggleStartButton);
+        if (playerNameInput) { // Verifica se o elemento existe antes de adicionar o listener
+            playerNameInput.addEventListener('input', toggleStartButton);
+        } else {
+            console.error("playerNameInput not found, cannot attach input listener.");
+        }
+
+
+        // Event listener para o botão "Voltar para o Início" (mantido, mas não usado no fluxo automático)
+        // Verifica se o backToStartButton existe antes de adicionar o event listener
+        if (backToStartButton) {
+             backToStartButton.addEventListener('click', restartQuiz);
+        } else {
+             console.warn("backToStartButton not found on DOM load, cannot add event listener."); // Alterado para warn, pois não é crítico para o fluxo principal
+        }
 
 
     </script>
