@@ -109,9 +109,9 @@
              flex-shrink: 0; /* Impede que o título encolha */
         }
 
-        /* Tela Inicial */
+        /* Tela Inicial com fundo vermelho forte */
         #start-screen {
-            background-color: var(--light-blue-bg); /* Fundo azul claro vibrante */
+            background-color: var(--strong-red-bg); /* Fundo vermelho forte */
             padding: 30px; /* Reduzido padding */
             border-radius: 16px; /* Cantos mais arredondados */
             margin-bottom: 20px; /* Reduzido */
@@ -124,22 +124,24 @@
              max-width: 500px; /* Diminui a largura máxima da tela inicial */
              margin-left: auto; /* Centraliza a tela inicial */
              margin-right: auto; /* Centraliza a tela inicial */
+             transition: background-color 0.3s ease-in-out; /* Transição suave */
         }
+         #start-screen:hover {
+             background-color: var(--strong-red-bg-dark); /* Vermelho mais escuro no hover */
+         }
 
-        /* Contêiner "Digite seu nome" na tela inicial com fundo vermelho forte */
+
+        /* Contêiner "Digite seu nome" dentro da tela inicial */
         .start-container {
             margin-bottom: 30px; /* Reduzido espaço */
             width: 100%; /* Ocupa a largura do #start-screen */
             max-width: 380px; /* Ajusta a largura máxima do contêiner interno */
-             background-color: var(--strong-red-bg); /* Fundo vermelho forte */
-             padding: 20px; /* Adiciona padding interno */
-             border-radius: 12px; /* Cantos arredondados */
-             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Sombra um pouco mais forte */
-             transition: background-color 0.3s ease-in-out; /* Transição suave */
+             /* Removido fundo vermelho daqui, pois agora está no #start-screen */
+             padding: 0; /* Remove padding interno, agora no #start-screen */
+             border-radius: 0; /* Remove border-radius, agora no #start-screen */
+             box-shadow: none; /* Remove sombra, agora no #start-screen */
         }
-         .start-container:hover {
-             background-color: var(--strong-red-bg-dark); /* Vermelho mais escuro no hover */
-         }
+
 
         .start-container label {
             font-size: 1.2rem; /* Tamanho maior */
@@ -166,19 +168,20 @@
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* Sombra azul vibrante ao focar */
         }
 
-        /* Estilos para o Ranking */
+        /* Estilos para o Ranking dentro da tela inicial com fundo vermelho forte */
         .high-scores-container {
             margin-top: 20px; /* Reduzido margem */
             padding-top: 20px; /* Reduzido padding */
-            border-top: 1px solid var(--light-border); /* Separador */
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Separador branco transparente */
             text-align: left;
              width: 100%; /* Ocupa a largura do #start-screen */
             max-width: 380px; /* Mantém a mesma largura do start-container */
+             color: white; /* Cor do texto branca para o Ranking */
         }
         .high-scores-container h3 {
             font-size: 1.5rem; /* Tamanho maior */
             font-weight: 700; /* Bold */
-            color: var(--dark-text);
+            color: white; /* Cor do título branca */
             margin-bottom: 15px; /* Reduzido espaço */
             text-align: center;
         }
@@ -188,7 +191,7 @@
             margin: 0;
         }
         .high-scores-list li {
-            /* background-color: var(--card-bg); */ /* Fundo branco removido */
+            /* Mantém o gradiente azul para os itens individuais do ranking */
             background: linear-gradient(to right, var(--ranking-gradient-start), var(--ranking-gradient-end)); /* Gradiente azul */
             padding: 10px 15px; /* Reduzido padding */
             border-radius: 10px; /* Cantos mais arredondados */
@@ -198,7 +201,7 @@
             justify-content: space-between;
             font-size: 1rem; /* Reduzido tamanho da fonte */
             color: var(--dark-text); /* Cor do texto mais escura para contraste */
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Adiciona transição para sombra */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out; /* Adiciona transição para sombra */
         }
         .high-scores-list li:hover {
             transform: translateX(5px); /* Efeito sutil ao passar o mouse */
@@ -207,6 +210,9 @@
          .high-scores-list li strong {
             color: var(--dark-text); /* Cor mais escura para o nome */
             font-weight: 600; /* Semi-bold */
+         }
+         .high-scores-list li:last-child {
+             margin-bottom: 0; /* Remove margem inferior do último item */
          }
 
 
@@ -335,7 +341,7 @@
             /* -------------------------------------- */
         }
         .options label:hover {
-            background-color: var(--primary-blue-dark); /* Azul mais forte ao passar o mouse */
+            background-color: var(--primary-blue-dark); /* Azul mais escuro ao passar o mouse */
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12); /* Sombra maior */
             transform: translateY(-3px); /* Efeito sutil ao passar o mouse */
         }
@@ -527,7 +533,7 @@
             border-radius: 16px; /* Cantos mais arredondados */
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25); /* Sombra mais forte */
             text-align: center;
-            position: relative; /* Para posicionar elementos decorativos e a marca d'água */
+            position: relative; /* Para posicionar elementos decorativos */
             overflow: hidden; /* Esconde partes decorativas que saem da borda */
             animation: scaleIn 0.8s ease-out; /* Animação de escala */
              /* Adicionado para centralizar o certificado dentro da área de resultados */
@@ -543,18 +549,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* Estilo para a marca d'água no certificado */
-        .certificate-watermark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ajusta a imagem para caber mantendo a proporção */
-            opacity: 0.1; /* Define a transparência para parecer marca d'água */
-            z-index: 0; /* Garante que fique atrás do conteúdo */
-            pointer-events: none; /* Impede que a imagem interfira com cliques no texto */
-        }
+        /* Removido o estilo .certificate-watermark pois a imagem foi removida */
 
 
         .certificate h2 {
@@ -563,7 +558,7 @@
             margin-bottom: 30px; /* Mais espaço */
             font-weight: 800; /* Extra bold */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra no texto */
-            position: relative; /* Garante que o título fique acima da marca d'água */
+            position: relative; /* Garante que o título fique acima de elementos decorativos */
             z-index: 1;
         }
 
@@ -571,7 +566,7 @@
             font-size: 1.4rem; /* Tamanho maior */
             color: white; /* Cor do texto branca para contraste */
             margin-bottom: 15px;
-            position: relative; /* Garante que o texto fique acima da marca d'água */
+            position: relative; /* Garante que o texto fique acima de elementos decorativos */
             z-index: 1;
         }
 
@@ -582,7 +577,7 @@
             margin: 30px 0; /* Mais espaço */
             text-transform: uppercase; /* Nome em maiúsculas */
              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08); /* Sombra sutil no nome */
-             position: relative; /* Garante que o nome fique acima da marca d'água */
+             position: relative; /* Garante que o nome fique acima de elementos decorativos */
             z-index: 1;
         }
 
@@ -591,7 +586,7 @@
             font-weight: 700; /* Bold */
             color: var(--secondary-green); /* Mantém verde vibrante para pontuação */
             margin-top: 25px; /* Mais espaço */
-            position: relative; /* Garante que a pontuação fique acima da marca d'água */
+            position: relative; /* Garante que a pontuação fique acima de elementos decorativos */
             z-index: 1;
         }
 
@@ -605,7 +600,7 @@
             background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(165, 180, 252, 0.2)); /* Gradiente azul com transparência */
             border-radius: 50%;
             opacity: 0.8; /* Mais opacidade */
-            z-index: 0; /* Garante que fiquem atrás do conteúdo e possivelmente da marca d'água */
+            z-index: 0; /* Garante que fiquem atrás do conteúdo */
             filter: blur(50px); /* Efeito de desfoque maior */
         }
 
@@ -619,8 +614,8 @@
             right: -90px; /* Posição ajustada */
         }
 
-        /* Garante que todos os filhos diretos do certificado (exceto a marca d'água) fiquem acima */
-         .certificate > *:not(.certificate-watermark) {
+        /* Garante que todos os filhos diretos do certificado fiquem acima dos elementos decorativos */
+         .certificate > * {
              position: relative;
              z-index: 1;
          }
@@ -679,13 +674,10 @@
 
         <div id="quiz-results" class="results hidden">
              <div id="certificate" class="certificate hidden">
-                <img src="logo190 anos.jpg-4e8bebfd-22a5-406c-8177-b23fcb008cad" alt="Logo 190 anos Assembleia Legislativa" class="certificate-watermark" onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=Erro+ao+carregar+Logo'; console.error('Erro ao carregar a imagem da logo:', this.src);">
-
                 <h2>Certificado de Conclusão</h2>
                 <p>Este certificado atesta que</p>
                 <p class="player-name"></p>
-                <p>concluiu o Quiz sobre o Memorial Legislativo Maranhense com a seguinte pontuação:</p>
-                <p class="final-score"></p>
+                <p>concluiu o Quiz sobre o Memorial Legislativo Maranhense com a seguinte pontuação total:</p> <p class="final-score"></p>
                 <p>Parabéns!</p>
             </div>
             <div id="congratulations-message" class="restart-message"></div>
@@ -1267,7 +1259,8 @@
             // Sempre exibe o certificado na tela de resultados
             if (certificateEl) { // Verifica se o elemento existe
                  playerNameCertEl.textContent = playerName.toUpperCase(); // Converte para caixa alta
-                 finalScoreCertEl.textContent = `${quizScore} pontos`; // Exibe APENAS a pontuação do quiz no certificado
+                 // Exibe o combinedScore no certificado
+                 finalScoreCertEl.textContent = `${combinedScore} pontos`; // Exibe a pontuação TOTAL (quiz + tempo) no certificado
                  certificateEl.classList.remove('hidden'); // Mostra o certificado
             } else {
                  console.error("Elemento do certificado não encontrado!");
